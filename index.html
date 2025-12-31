@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 FIFAワールドカップ GS突破予想確率シミュレーション</title>
+    <style>
+        :root {
+            --header-bg: #00004d; /* 濃い紺色 */
+            --body-bg: #e0e0e0;   /* 背景のグレー */
+            --text-color: #000;
+            --accent-green: #32cd32; /* 突破・安全圏 */
+            --accent-yellow: #ffff00; /* 可能性あり */
+            --accent-red: #ff4d4d;    /* 奇跡・敗退 */
+            --accent-dark-red: #cc0000;
+        }
+
+        body {
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            background-color: var(--body-bg);
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+        }
+
+        /* ヘッダーエリア */
+        header {
+            background-color: var(--header-bg);
+            color: white;
+            padding: 20px;
+            border-bottom: 4px solid #fff;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 24px;
+            line-height: 1.4;
+            text-decoration: underline;
+            text-underline-offset: 5px;
+            display: inline-block;
+        }
+
+        /* メインコンテンツ */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        /* 国旗画像のスタイル */
+        .flag-icon {
+            width: 36px;
+            height: auto;
+            vertical-align: middle;
+            margin-right: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        
+        /* 日本の国旗（大） */
+        .flag-icon-large {
+            width: 48px;
+            margin-left: 10px;
+        }
+
+        .team-section {
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            display: flex;
+            align-items: center;
+        }
+
+        .description {
+            font-size: 14px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        /* 入力テーブル */
+        .input-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+            margin-bottom: 0px;
+        }
+
+        .input-table th {
+            text-align: left;
+            padding: 5px;
+            font-weight: bold;
+        }
+
+        .input-table td {
+            padding: 0px;
+            vertical-align: middle;
+        }
+
+        .team-name {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        /* 入力フィールドのデザイン */
+        input[type="number"] {
+            width: 50px;
+            padding: 5px;
+            font-size: 18px;
+            text-align: right;
+            border: 1px solid #999;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .percent-label {
+            font-size: 16px;
+            margin-left: 4px;
+        }
+
+        /* 結果エリア */
+        .result-summary {
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .total-prob {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .result-breakdown {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        /* 詳細テーブル */
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+            background-color: transparent;
+        }
+
+        .result-table th {
+            background-color: #b0c4de;
+            padding: 8px;
+            border: 1px solid #999;
+        }
+
+        .result-table td {
+            padding: 0px;
+            border: 1px solid #999;
+            background-color: white;
+            font-weight: bold;
+        }
+
+        /* ステータスの色分けクラス */
+        .status-safe {
+            background-color: var(--accent-green) !important;
+            color: black;
+        }
+        .status-border {
+            background-color: var(--accent-yellow) !important;
+            color: black;
+        }
+        .status-miracle {
+            background-color: var(--accent-red) !important;
+            color: black;
+        }
+        .status-out {
+            background-color: var(--accent-dark-red) !important;
+            color: white;
+        }
+
+        /* エラー表示 */
+        .error-msg {
+            color: red;
+            font-size: 12px;
+            display: none;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #999;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>2026 FIFAワールドカップ<br>グループステージ突破予想確率<br>シミュレーション</h1>
+</header>
+
+<div class="container">
+    <div class="team-section">
+        <h2>対象チーム：日本 <img src="./img/JP.png" alt="日本国旗" class="flag-icon flag-icon-large"></h2>
+        <p class="description">
+            日本のグループステージ各対戦としての、勝利・引き分け・敗北の確率を合計100%で入力してください。<br>
+            グループステージ突破確率を計算します。
+        </p>
+
+        <table class="input-table">
+            <thead>
+                <tr>
+                    <th style="width: 30%;">対戦チーム</th>
+                    <th style="width: 23%;">日本<br>勝利確率</th>
+                    <th style="width: 23%;">日本<br>引分確率</th>
+                    <th style="width: 23%;">日本<br>敗北確率</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="team-name"><img src="./img/NL.png" alt="オランダ国旗" class="flag-icon"> オランダ</div>
+                    </td>
+                    <td><input type="number" id="w1" value="30" oninput="calc()"> <span class="percent-label">%</span></td>
+                    <td><input type="number" id="d1" value="30" oninput="calc()"> <span class="percent-label">%</span></td>
+                    <td><input type="number" id="l1" value="40" oninput="calc()"> <span class="percent-label">%</span></td>
+                </tr>
+                <tr><td colspan="4"><span id="err1" class="error-msg">合計が100%になっていません</span></td></tr>
+
+                <tr>
+                    <td>
+                        <div class="team-name"><img src="./img/TN.png" alt="チュニジア国旗" class="flag-icon"> チュニジア</div>
+                    </td>
+                    <td><input type="number" id="w2" value="30" oninput="calc()"> <span class="percent-label">%</span></td>
+                    <td><input type="number" id="d2" value="50" oninput="calc()"> <span class="percent-label">%</span></td>
+                    <td><input type="number" id="l2" value="20" oninput="calc()"> <span class="percent-label">%</span></td>
+                </tr>
+                <tr><td colspan="4"><span id="err2" class="error-msg">合計が100%になっていません</span></td></tr>
+
+                <tr>
+                    <td>
+                        <div class="team-name"><img src="./img/EU-PO-B.png" alt="欧州PO旗" class="flag-icon"> 欧州PO-B</div>
+                    </td>
+                    <td><input type="number" id="w3" value="30" oninput="calc()"> <span class="percent-label">%</span></td>
+                    <td><input type="number" id="d3" value="40" oninput="calc()"> <span class="percent-label">%</span></td>
+                    <td><input type="number" id="l3" value="30" oninput="calc()"> <span class="percent-label">%</span></td>
+                </tr>
+                <tr><td colspan="4"><span id="err3" class="error-msg">合計が100%になっていません</span></td></tr>
+            </tbody>
+        </table>
+
+        <hr>
+
+        <div id="result-area">
+            <div class="result-summary">
+                日本のグループステージ突破予想確率は <span id="total-prob" class="total-prob">--.-%</span> です。
+            </div>
+            <div class="result-breakdown" id="breakdown-text">
+                </div>
+        <hr>
+
+            <table class="result-table">
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">勝ち点</th>
+                        <th style="width: 25%;">確率</th>
+                        <th style="width: 25%;">GS突破確率</th>
+                        <th style="width: 30%;">GS突破</th>
+                    </tr>
+                </thead>
+                <tbody id="result-tbody">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 勝ち点ごとの突破確率定義（シミュレーション結果に基づく定数）
+    const QUALIFY_RATES = {
+        9: 1.000,
+        7: 1.000,
+        6: 1.000,
+        5: 1.000,
+        4: 0.993,
+        3: 0.473,
+        2: 0.025,
+        1: 0.000,
+        0: 0.000
+    };
+
+    // 判定ラベル定義
+    const STATUS_LABELS = {
+        9: { text: "突破", class: "status-safe" },
+        7: { text: "突破", class: "status-safe" },
+        6: { text: "突破", class: "status-safe" },
+        5: { text: "突破", class: "status-safe" },
+        4: { text: "ほぼ確実", class: "status-safe" },
+        3: { text: "可能性あり", class: "status-border" },
+        2: { text: "奇跡待ち", class: "status-miracle" },
+        1: { text: "敗退決定", class: "status-out" },
+        0: { text: "敗退決定", class: "status-out" }
+    };
+
+    function calc() {
+        // 入力値の取得
+        const inputs = [
+            { w: +document.getElementById('w1').value, d: +document.getElementById('d1').value, l: +document.getElementById('l1').value, err: 'err1' },
+            { w: +document.getElementById('w2').value, d: +document.getElementById('d2').value, l: +document.getElementById('l2').value, err: 'err2' },
+            { w: +document.getElementById('w3').value, d: +document.getElementById('d3').value, l: +document.getElementById('l3').value, err: 'err3' }
+        ];
+
+        // バリデーション（合計100確認）
+        inputs.forEach(row => {
+            const sum = row.w + row.d + row.l;
+            document.getElementById(row.err).style.display = (sum !== 100) ? 'block' : 'none';
+        });
+
+        // 確率計算（全ての組み合わせ 3*3*3 = 27通り）
+        let pointsDist = { 9:0, 7:0, 6:0, 5:0, 4:0, 3:0, 2:0, 1:0, 0:0 };
+        const games = inputs.map(i => ({ w: i.w / 100, d: i.d / 100, l: i.l / 100 }));
+
+        ['w', 'd', 'l'].forEach(r1 => {
+            ['w', 'd', 'l'].forEach(r2 => {
+                ['w', 'd', 'l'].forEach(r3 => {
+                    const prob = games[0][r1] * games[1][r2] * games[2][r3];
+                    let pts = 0;
+                    if(r1 === 'w') pts += 3; else if(r1 === 'd') pts += 1;
+                    if(r2 === 'w') pts += 3; else if(r2 === 'd') pts += 1;
+                    if(r3 === 'w') pts += 3; else if(r3 === 'd') pts += 1;
+                    if (pointsDist.hasOwnProperty(pts)) pointsDist[pts] += prob;
+                });
+            });
+        });
+
+        // 最終的な突破確率の計算と集計
+        let totalQualifyProb = 0;
+        let p4_plus = 0, p3 = 0, p3_qual = 0, p2_under = 0;
+        const tableData = [];
+
+        Object.keys(pointsDist).sort((a,b) => b-a).forEach(pt => {
+            const p = pointsDist[pt];
+            const qRate = QUALIFY_RATES[pt];
+            const qProb = p * qRate;
+            totalQualifyProb += qProb;
+
+            if (pt >= 4) p4_plus += p;
+            else if (pt == 3) { p3 = p; p3_qual = qProb; }
+            else p2_under += p;
+
+            tableData.push({ pts: pt, prob: p, qRate: qRate, status: STATUS_LABELS[pt] });
+        });
+
+        // 表示更新
+        document.getElementById('total-prob').innerText = (totalQualifyProb * 100).toFixed(1) + "%";
+        const p3_fail = p3 - p3_qual;
+        document.getElementById('breakdown-text').innerHTML = `
+            内訳<br>
+            ${(p4_plus * 100).toFixed(1)}% の確率で、勝ち点4以上を獲得し突破<br>
+            ${(p3 * 100).toFixed(1)}% の確率で、勝ち点3を獲得し、${(p3_qual * 100).toFixed(1)}% で突破、${(p3_fail * 100).toFixed(1)}% で敗退<br>
+            ${(p2_under * 100).toFixed(1)}% の確率で、勝ち点2以下しか獲得できず敗退
+        `;
+
+        const tbody = document.getElementById('result-tbody');
+        tbody.innerHTML = '';
+        tableData.forEach(row => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td>${row.pts}</td><td>${(row.prob * 100).toFixed(1)}%</td><td>${(row.qRate * 100).toFixed(1)}%</td><td class="${row.status.class}">${row.status.text}</td>`;
+            tbody.appendChild(tr);
+        });
+    }
+
+    window.onload = calc;
+</script>
+
+</body>
+</html>
