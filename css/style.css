@@ -1,0 +1,184 @@
+:root {
+    --header-bg: #00004d; /* 濃い紺色 */
+    --body-bg: #e0e0e0;   /* 背景のグレー */
+    --text-color: #000;
+    --accent-green: #49be5d; /* 突破・安全圏 */
+    --accent-yellow: #f4d536; /* 可能性あり */
+    --accent-red: #f35a34;    /* 奇跡・敗退 */
+    --accent-dark-red: #cc0000;
+}
+
+body {
+    font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+    background-color: var(--body-bg);
+    margin: 0;
+    padding: 0;
+    color: var(--text-color);
+}
+
+/* ヘッダーエリア */
+header {
+    background-color: var(--header-bg);
+    color: white;
+    padding: 20px;
+    border-bottom: 4px solid #fff;
+    text-align: center;
+}
+
+h1 {
+    margin: 0;
+    font-size: 24px;
+    line-height: 1.4;
+    text-decoration: underline;
+    text-underline-offset: 5px;
+    display: inline-block;
+}
+
+/* メインコンテンツ */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+/* 国旗画像のスタイル */
+.flag-icon {
+    width: 36px;
+    height: auto;
+    vertical-align: middle;
+    margin-right: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+/* 日本の国旗（大） */
+.flag-icon-large {
+    width: 48px;
+    margin-left: 10px;
+}
+
+.team-section {
+    margin-bottom: 30px;
+}
+
+h2 {
+    display: flex;
+    align-items: center;
+}
+
+.description {
+    font-size: 14px;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+/* 入力テーブル */
+.input-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    margin-bottom: 0px;
+}
+
+.input-table th {
+    text-align: left;
+    padding: 5px;
+    font-weight: bold;
+}
+
+.input-table td {
+    padding: 0px;
+    vertical-align: middle;
+}
+
+.team-name {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* 入力フィールドのデザイン */
+input[type="number"] {
+    width: 50px;
+    padding: 5px;
+    font-size: 18px;
+    text-align: right;
+    border: 1px solid #999;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.percent-label {
+    font-size: 16px;
+    margin-left: 4px;
+}
+
+/* 結果エリア */
+.result-summary {
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.total-prob {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.result-breakdown {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+/* 詳細テーブル */
+.result-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    background-color: transparent;
+}
+
+.result-table th {
+    background-color: #b0c4de;
+    padding: 8px;
+    border: 1px solid #999;
+}
+
+.result-table td {
+    padding: 0px;
+    border: 1px solid #999;
+    background-color: white;
+    font-weight: bold;
+}
+
+/* ステータスの色分けクラス */
+.status-safe {
+    background-color: var(--accent-green) !important;
+    color: black;
+}
+.status-border {
+    background-color: var(--accent-yellow) !important;
+    color: black;
+}
+.status-miracle {
+    background-color: var(--accent-red) !important;
+    color: black;
+}
+.status-out {
+    background-color: var(--accent-dark-red) !important;
+    color: white;
+}
+
+/* エラー表示 */
+.error-msg {
+    color: red;
+    font-size: 12px;
+    display: none;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #999;
+    margin: 15px 0;
+}
