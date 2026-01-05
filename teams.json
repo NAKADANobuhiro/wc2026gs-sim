@@ -1,0 +1,122 @@
+[
+  {
+    "id": "A",
+    "name": { "ja": "グループ A", "en": "Group A" },
+    "teams": [
+      { "code": "MX", "name": { "ja": "メキシコ", "en": "Mexico" } },
+      { "code": "ZA", "name": { "ja": "南アフリカ", "en": "South Africa" } },
+      { "code": "KR", "name": { "ja": "韓国", "en": "South Korea" } },
+      { "code": "UEFA-D", "name": { "ja": "UEFA・パスD勝者", "en": "UEFA Path D winner" } }
+    ]
+  },
+  {
+    "id": "B",
+    "name": { "ja": "グループ B", "en": "Group B" },
+    "teams": [
+      { "code": "CA", "name": { "ja": "カナダ", "en": "Canada" } },
+      { "code": "CH", "name": { "ja": "スイス", "en": "Switzerland" } },
+      { "code": "QA", "name": { "ja": "カタール", "en": "Qatar" } },
+      { "code": "UEFA-A", "name": { "ja": "UEFA・パスA勝者", "en": "UEFA Path A winner" } }
+    ]
+  },
+  {
+    "id": "C",
+    "name": { "ja": "グループ C", "en": "Group C" },
+    "teams": [
+      { "code": "BR", "name": { "ja": "ブラジル", "en": "Brazil" } },
+      { "code": "MA", "name": { "ja": "モロッコ", "en": "Morocco" } },
+      { "code": "HT", "name": { "ja": "ハイチ", "en": "Haiti" } },
+      { "code": "GB-SCT", "name": { "ja": "スコットランド", "en": "Scotland" } }
+    ]
+  },
+  {
+    "id": "D",
+    "name": { "ja": "グループ D", "en": "Group D" },
+    "teams": [
+      { "code": "US", "name": { "ja": "アメリカ合衆国", "en": "USA" } },
+      { "code": "PY", "name": { "ja": "パラグアイ", "en": "Paraguay" } },
+      { "code": "AU", "name": { "ja": "オーストラリア", "en": "Australia" } },
+      { "code": "UEFA-C", "name": { "ja": "UEFA・パスC勝者", "en": "UEFA Path C winner" } }
+    ]
+  },
+  {
+    "id": "E",
+    "name": { "ja": "グループ E", "en": "Group E" },
+    "teams": [
+      { "code": "DE", "name": { "ja": "ドイツ", "en": "Germany" } },
+      { "code": "CW", "name": { "ja": "キュラソー", "en": "Curaçao" } },
+      { "code": "CI", "name": { "ja": "コートジボワール", "en": "Ivory Coast" } },
+      { "code": "EC", "name": { "ja": "エクアドル", "en": "Ecuador" } }
+    ]
+  },
+  {
+    "id": "F",
+    "name": { "ja": "グループ F", "en": "Group F" },
+    "teams": [
+      { "code": "NL", "name": { "ja": "オランダ", "en": "Netherlands" } },
+      { "code": "JP", "name": { "ja": "日本", "en": "Japan" } },
+      { "code": "TN", "name": { "ja": "チュニジア", "en": "Tunisia" } },
+      { "code": "UEFA-B", "name": { "ja": "UEFA・パスB勝者", "en": "UEFA Path B winner" } }
+    ]
+  },
+  {
+    "id": "G",
+    "name": { "ja": "グループ G", "en": "Group G" },
+    "teams": [
+      { "code": "BE", "name": { "ja": "ベルギー", "en": "Belgium" } },
+      { "code": "EG", "name": { "ja": "エジプト", "en": "Egypt" } },
+      { "code": "IR", "name": { "ja": "イラン", "en": "Iran" } },
+      { "code": "NZ", "name": { "ja": "ニュージーランド", "en": "New Zealand" } }
+    ]
+  },
+  {
+    "id": "H",
+    "name": { "ja": "グループ H", "en": "Group H" },
+    "teams": [
+      { "code": "ES", "name": { "ja": "スペイン", "en": "Spain" } },
+      { "code": "CV", "name": { "ja": "カーボベルデ", "en": "Cape Verde" } },
+      { "code": "SA", "name": { "ja": "サウジアラビア", "en": "Saudi Arabia" } },
+      { "code": "UY", "name": { "ja": "ウルグアイ", "en": "Uruguay" } }
+    ]
+  },
+  {
+    "id": "I",
+    "name": { "ja": "グループ I", "en": "Group I" },
+    "teams": [
+      { "code": "FR", "name": { "ja": "フランス", "en": "France" } },
+      { "code": "SN", "name": { "ja": "セネガル", "en": "Senegal" } },
+      { "code": "NO", "name": { "ja": "ノルウェー", "en": "Norway" } },
+      { "code": "ICPO-2", "name": { "ja": "大陸間プレーオフ2勝者", "en": "Inter-confederation Playoff 2 winner" } }
+    ]
+  },
+  {
+    "id": "J",
+    "name": { "ja": "グループ J", "en": "Group J" },
+    "teams": [
+      { "code": "AR", "name": { "ja": "アルゼンチン", "en": "Argentina" } },
+      { "code": "JO", "name": { "ja": "ヨルダン", "en": "Jordan" } },
+      { "code": "AT", "name": { "ja": "オーストリア", "en": "Austria" } },
+      { "code": "DZ", "name": { "ja": "アルジェリア", "en": "Algeria" } }
+    ]
+  },
+  {
+    "id": "K",
+    "name": { "ja": "グループ K", "en": "Group K" },
+    "teams": [
+      { "code": "PT", "name": { "ja": "ポルトガル", "en": "Portugal" } },
+      { "code": "UZ", "name": { "ja": "ウズベキスタン", "en": "Uzbekistan" } },
+      { "code": "CO", "name": { "ja": "コロンビア", "en": "Colombia" } },
+      { "code": "ICPO-1", "name": { "ja": "大陸間プレーオフ1勝者", "en": "Inter-confederation Playoff 1 winner" } }
+    ]
+  },
+  {
+    "id": "L",
+    "name": { "ja": "グループ L", "en": "Group L" },
+    "teams": [
+      { "code": "GB-ENG", "name": { "ja": "イングランド", "en": "England" } },
+      { "code": "HR", "name": { "ja": "クロアチア", "en": "Croatia" } },
+      { "code": "PA", "name": { "ja": "パナマ", "en": "Panama" } },
+      { "code": "GH", "name": { "ja": "ガーナ", "en": "Ghana" } }
+    ]
+  }
+]

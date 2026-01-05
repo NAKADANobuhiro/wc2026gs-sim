@@ -3,86 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2026 FIFAワールドカップ GS突破予想確率シミュレーション</title>
+    <title>2026 FIFA World Cup Simulator</title>
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
 
 <header>
-    <h1>2026 FIFAワールドカップ<br>グループステージ突破予想確率<br>シミュレーション</h1>
+    <div class="settings-bar">
+        <select id="lang-selector">
+            <option value="ja">🇯🇵 日本語</option>
+            <option value="en">🇺🇸 English</option>
+        </select>
+    </div>
+    <h1 id="app-title"></h1>
 </header>
 
 <div class="container">
     <div class="team-section">
-        <h2>対象チーム：日本 <img src="./img/JP.png" alt="日本国旗" class="flag-icon flag-icon-large"></h2>
-        <p class="description">
-            日本のグループステージ各対戦の、勝利・引き分け・敗北の確率を合計100%で入力してください。<br>
-            グループステージ突破確率を計算します。
-        </p>
+        <h2 id="target-team-heading">
+            <span id="target-team-heading-text"></span>
+            <img id="target-team-flag" src="" class="flag-icon flag-icon-large">
+            <a id="select-team-btn" href="select.html" class="btn-select">変更</a>
+        </h2>
+        <p class="description" id="app-desc">
+            </p>
 
         <table class="input-table">
             <thead>
                 <tr>
-                    <th style="width: 30%;">対戦チーム</th>
-                    <th style="width: 23%;">日本<br>勝利確率</th>
-                    <th style="width: 23%;">日本<br>引分確率</th>
-                    <th style="width: 23%;">日本<br>敗北確率</th>
+                    <th style="width: 30%;" id="th-opponent">対戦チーム</th>
+                    <th style="width: 23%;" id="th-win">勝利 %</th>
+                    <th style="width: 23%;" id="th-draw">引分 %</th>
+                    <th style="width: 23%;" id="th-loss">敗北 %</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <div class="team-name"><img src="./img/NL.png" alt="オランダ国旗" class="flag-icon"> オランダ</div>
-                    </td>
-                    <td><input type="number" id="w1" value="30" oninput="calc()"> <span class="percent-label">%</span></td>
-                    <td><input type="number" id="d1" value="30" oninput="calc()"> <span class="percent-label">%</span></td>
-                    <td><input type="number" id="l1" value="40" oninput="calc()"> <span class="percent-label">%</span></td>
-                </tr>
-                <tr><td colspan="4"><span id="err1" class="error-msg">合計が100%になっていません</span></td></tr>
-
-                <tr>
-                    <td>
-                        <div class="team-name"><img src="./img/TN.png" alt="チュニジア国旗" class="flag-icon"> チュニジア</div>
-                    </td>
-                    <td><input type="number" id="w2" value="30" oninput="calc()"> <span class="percent-label">%</span></td>
-                    <td><input type="number" id="d2" value="50" oninput="calc()"> <span class="percent-label">%</span></td>
-                    <td><input type="number" id="l2" value="20" oninput="calc()"> <span class="percent-label">%</span></td>
-                </tr>
-                <tr><td colspan="4"><span id="err2" class="error-msg">合計が100%になっていません</span></td></tr>
-
-                <tr>
-                    <td>
-                        <div class="team-name"><img src="./img/EU-PO-B.png" alt="欧州PO旗" class="flag-icon"> 欧州PO-B</div>
-                    </td>
-                    <td><input type="number" id="w3" value="30" oninput="calc()"> <span class="percent-label">%</span></td>
-                    <td><input type="number" id="d3" value="40" oninput="calc()"> <span class="percent-label">%</span></td>
-                    <td><input type="number" id="l3" value="30" oninput="calc()"> <span class="percent-label">%</span></td>
-                </tr>
-                <tr><td colspan="4"><span id="err3" class="error-msg">合計が100%になっていません</span></td></tr>
-            </tbody>
+            <tbody id="input-rows">
+                </tbody>
         </table>
 
         <hr>
 
         <div id="result-area">
             <div class="result-summary">
-                日本のグループステージ突破予想確率は <span id="total-prob" class="total-prob">--.-%</span> です。
+                <span id="res-summary-text"></span> 
+                <span id="total-prob" class="total-prob">--.-%</span>
             </div>
             <div class="result-breakdown" id="breakdown-text">
+                </div>
+
+            <div style="text-align: right; margin-bottom: 20px;">
+                <button id="share-url-btn" class="btn-share">現在の設定URLをコピー</button>
             </div>
-            <hr>
 
             <table class="result-table">
                 <thead>
                     <tr>
-                        <th style="width: 20%;">勝ち点</th>
-                        <th style="width: 25%;">確率</th>
-                        <th style="width: 25%;">GS突破確率</th>
-                        <th style="width: 30%;">GS突破</th>
+                        <th style="width: 20%;" id="th-pts">勝ち点</th>
+                        <th style="width: 25%;" id="th-prob">確率</th>
+                        <th style="width: 25%;" id="th-qual-prob">GS突破確率</th>
+                        <th style="width: 30%;" id="th-status">判定</th>
                     </tr>
                 </thead>
                 <tbody id="result-tbody">
-                </tbody>
+                    </tbody>
             </table>
         </div>
     </div>

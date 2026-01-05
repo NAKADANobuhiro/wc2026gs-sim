@@ -1,10 +1,10 @@
 :root {
-    --header-bg: #00004d; /* 濃い紺色 */
-    --body-bg: #e0e0e0;   /* 背景のグレー */
+    --header-bg: #00004d;
+    --body-bg: #e0e0e0;
     --text-color: #000;
-    --accent-green: #49be5d; /* 突破・安全圏 */
-    --accent-yellow: #f4d536; /* 可能性あり */
-    --accent-red: #f35a34;    /* 奇跡・敗退 */
+    --accent-green: #49be5d;
+    --accent-yellow: #f4d536;
+    --accent-red: #f35a34;
     --accent-dark-red: #cc0000;
 }
 
@@ -20,9 +20,32 @@ body {
 header {
     background-color: var(--header-bg);
     color: white;
-    padding: 20px;
+    padding: 15px 20px;
     border-bottom: 4px solid #fff;
-    text-align: center;
+    position: relative; /* 子要素のabsolute配置の基準 */
+    display: flex;
+    justify-content: center; /* タイトルを中央寄せ */
+    align-items: center;     /* 上下中央寄せ */
+    min-height: 40px;        /* 高さ確保 */
+}
+
+/* 設定エリア（右上のプルダウン） */
+.settings-bar {
+    position: absolute;      /* ヘッダー内での絶対配置 */
+    right: 20px;             /* 右端から20px */
+    top: 50%;                /* 上から50%の位置 */
+    transform: translateY(-50%); /* 自身の高さの半分だけ上にずらして完全な上下中央にする */
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+}
+
+select {
+    padding: 5px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    cursor: pointer;
 }
 
 h1 {
@@ -31,7 +54,7 @@ h1 {
     line-height: 1.4;
     text-decoration: underline;
     text-underline-offset: 5px;
-    display: inline-block;
+    text-align: center;
 }
 
 /* メインコンテンツ */
@@ -41,7 +64,6 @@ h1 {
     padding: 10px;
 }
 
-/* 国旗画像のスタイル */
 .flag-icon {
     width: 36px;
     height: auto;
@@ -50,7 +72,6 @@ h1 {
     box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
 
-/* 日本の国旗（大） */
 .flag-icon-large {
     width: 48px;
     margin-left: 10px;
@@ -63,6 +84,7 @@ h1 {
 h2 {
     display: flex;
     align-items: center;
+    margin-top: 0;
 }
 
 .description {
@@ -83,6 +105,7 @@ h2 {
     text-align: left;
     padding: 5px;
     font-weight: bold;
+    font-size: 14px;
 }
 
 .input-table td {
@@ -94,10 +117,9 @@ h2 {
     display: flex;
     align-items: center;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 16px;
 }
 
-/* 入力フィールドのデザイン */
 input[type="number"] {
     width: 50px;
     padding: 5px;
@@ -131,7 +153,6 @@ input[type="number"] {
     margin-bottom: 30px;
 }
 
-/* 詳細テーブル */
 .result-table {
     width: 100%;
     border-collapse: collapse;
@@ -143,34 +164,23 @@ input[type="number"] {
     background-color: #b0c4de;
     padding: 8px;
     border: 1px solid #999;
+    font-size: 14px;
 }
 
 .result-table td {
     padding: 0px;
+    height: 35px;
     border: 1px solid #999;
     background-color: white;
     font-weight: bold;
 }
 
-/* ステータスの色分けクラス */
-.status-safe {
-    background-color: var(--accent-green) !important;
-    color: black;
-}
-.status-border {
-    background-color: var(--accent-yellow) !important;
-    color: black;
-}
-.status-miracle {
-    background-color: var(--accent-red) !important;
-    color: black;
-}
-.status-out {
-    background-color: var(--accent-dark-red) !important;
-    color: white;
-}
+/* ステータス色 */
+.status-safe { background-color: var(--accent-green) !important; color: black; }
+.status-border { background-color: var(--accent-yellow) !important; color: black; }
+.status-miracle { background-color: var(--accent-red) !important; color: black; }
+.status-out { background-color: var(--accent-dark-red) !important; color: white; }
 
-/* エラー表示 */
 .error-msg {
     color: red;
     font-size: 12px;
@@ -181,4 +191,98 @@ hr {
     border: 0;
     border-top: 1px solid #999;
     margin: 15px 0;
+}
+
+/* 選択ボタンのスタイル */
+.btn-select {
+    display: inline-block;
+    margin-left: 15px;
+    padding: 5px 12px;
+    font-size: 14px;
+    background-color: #eee;
+    color: #333;
+    text-decoration: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    vertical-align: middle;
+    transition: background-color 0.2s;
+    font-weight: normal;
+}
+
+.btn-select:hover {
+    background-color: #ddd;
+    border-color: #999;
+}
+
+/* スマホ対応 */
+@media (max-width: 600px) {
+    header {
+        flex-direction: column; /* スマホでは縦並び */
+        padding-top: 50px;      /* 上にスペースを空ける */
+    }
+    .settings-bar {
+        top: 10px;             /* 上部に配置 */
+        right: 10px;           /* 右端 */
+        transform: none;       /* 上下中央寄せ解除 */
+    }
+    .team-name { font-size: 14px; }
+    input[type="number"] { width: 40px; font-size: 16px; }
+}
+
+/* 選択ボタンのスタイル */
+.btn-select {
+    display: inline-block;
+    margin-left: 15px;
+    padding: 5px 12px;
+    font-size: 14px;
+    background-color: #eee;
+    color: #333;
+    text-decoration: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    vertical-align: middle;
+    transition: background-color 0.2s;
+    font-weight: normal;
+}
+
+.btn-select:hover {
+    background-color: #ddd;
+    border-color: #999;
+}
+
+/* シェアボタンのスタイル */
+.btn-share {
+    background-color: #008CBA; /* 青色 */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.btn-share:hover {
+    background-color: #007B9A;
+}
+
+/* スマホ対応 */
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        padding-top: 50px;
+    }
+    .settings-bar {
+        top: 10px;
+        right: 10px;
+        transform: none;
+    }
+    .team-name { font-size: 14px; }
+    input[type="number"] { width: 40px; font-size: 16px; }
+    
+    .btn-share {
+        width: 100%; /* スマホでは幅いっぱい */
+        margin-top: 10px;
+    }
 }
