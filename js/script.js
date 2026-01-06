@@ -49,7 +49,7 @@ const UI_RESOURCES = {
             ${p2}% の確率で、勝ち点2以下しか獲得できず<strong>敗退</strong>
         `,
         status: {
-            safe: "突破", likely: "ほぼ確実", border: "可能性あり", miracle: "奇跡待ち", out: "敗退決定"
+            safe: "突破", likely: "ほぼ確実", border: "得失点差勝負", miracle: "奇跡待ち", out: "敗退決定"
         }
     },
     en: {
@@ -78,7 +78,7 @@ const UI_RESOURCES = {
             ${p2}%: 2 points or less (<strong>Eliminated</strong>)
         `,
         status: {
-            safe: "Qualified", likely: "Very Likely", border: "Borderline", miracle: "Miracle Needed", out: "Eliminated"
+            safe: "Qualified", likely: "Very Likely", border: "Goal Difference", miracle: "Miracle Needed", out: "Eliminated"
         }
     }
 };
