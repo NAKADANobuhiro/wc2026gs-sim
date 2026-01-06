@@ -160,6 +160,12 @@ function changeLang() {
     currentLang = document.getElementById('lang-selector').value;
     const selectBtn = document.getElementById('select-team-btn');
     if(selectBtn) selectBtn.href = `select.html?lang=${currentLang}`;
+
+    // ▼ 追加: 言語切り替え時にURLのlangパラメータも更新する
+    const url = new URL(window.location);
+    url.searchParams.set('lang', currentLang);
+    window.history.replaceState(null, '', url);
+
     render();
 }
 
@@ -266,7 +272,11 @@ function updateUrlState() {
         const jsonStr = JSON.stringify(values);
         const encoded = btoa(jsonStr);
         const url = new URL(window.location);
+        
         url.searchParams.set('s', encoded);
+        // ▼ 追加: 現在の言語設定をURLパラメータにセット
+        url.searchParams.set('lang', currentLang);
+
         window.history.replaceState(null, '', url);
     } catch (e) {
         console.error('Encode failed', e);
