@@ -177,6 +177,7 @@ input[type="number"] {
 
 /* ステータス色 */
 .status-safe { background-color: var(--accent-green) !important; color: black; }
+.status-likely { background-color: var(--accent-green) !important; color: black; }
 .status-border { background-color: var(--accent-yellow) !important; color: black; }
 .status-miracle { background-color: var(--accent-red) !important; color: black; }
 .status-out { background-color: var(--accent-dark-red) !important; color: white; }
