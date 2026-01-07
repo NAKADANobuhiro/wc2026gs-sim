@@ -24,7 +24,7 @@ const STATUS_LABELS = {
 // 翻訳リソース (UI用)
 const UI_RESOURCES = {
     ja: {
-        title: "2026 FIFAワールドカップ GS突破予想確率シミュレーション",
+        title: "2026 FIFAワールドカップ GS突破シミュレーター",
         target_label: "対象チーム：",
         select_btn: "変更",
         desc: "各対戦における勝利・引き分け・敗北の確率を入力してください。グループステージ(GS)を突破できる確率をシミュレーションします。",
@@ -42,6 +42,12 @@ const UI_RESOURCES = {
         share_btn: "シェア用URLをコピー",
         share_done: "コピーしました！",
         share_fail: "コピーに失敗しました",
+        desc_title: "説明",
+        desc_list: [
+                    "グループステージ(GS)突破確率は、100万回のシミュレーションの結果から算出したものです。勝ち点6でも敗退する可能性はありますが、0.01% 以下のため 100.0% としています。",
+                    "勝利/引分/敗北の初期値は、過去 5 回のグループステージにおける、チームのFIFAランキングと試合結果から算出しています。FIFAランキング 1～10位を10位、11～20位を20位というように切り上げ、50位以上は 50位として、対戦結果を集計しています。また勝利と敗北の確率は整数となるように切り捨て、引分の確率で調整しています。あくまでも参考としてください。",
+                    "プレーオフでまだ結果が出ていない場合は、参加チームの中で最も FIFA ランキングの高いチームを採用しています。例えばグループFの、UEFA・パスB勝者 の場合、ウクライナ 28位, ポーランド 31位, スウェーデン 43位, アルバニア 63位のため、ウクライナの 28 位が使用されます。"
+                ],
         getBreakdown: (p4, p3, p3_qual, p3_fail, p2) => `
             内訳<br>
             ${p4}% の確率で、勝ち点4以上を獲得し<strong>突破</strong><br>
@@ -71,6 +77,12 @@ const UI_RESOURCES = {
         share_btn: "Copy Share URL",
         share_done: "Copied!",
         share_fail: "Copy Failed",
+        desc_title: "Description",
+        desc_list: [
+            "The Group Stage (GS) qualification probability is calculated based on the results of 1 million simulations. While there is a possibility of elimination with 6 points, it is treated as 100.0% because the probability is less than 0.01%.",
+            "The initial values for Win/Draw/Loss probabilities are calculated from team FIFA rankings and match results in the past 5 Group Stages. Rankings are rounded up (e.g., 1-10 to 10), and 50+ is treated as 50. Probabilities are rounded to integers and adjusted via the Draw probability. Please use this for reference only.",
+            "For undecided playoff spots, the highest-ranked team among the participants is used. For example, for the UEFA Path B winner in Group F, Ukraine (28th) is used as it is the highest among Ukraine (28th), Poland (31st), Sweden (43rd), and Albania (63rd)."
+        ],
         getBreakdown: (p4, p3, p3_qual, p3_fail, p2) => `
             Breakdown<br>
             ${p4}%: 4+ points (<strong>Qualified</strong>)<br>
@@ -221,6 +233,20 @@ function render() {
     // シェアボタンの文言更新
     const shareBtn = document.getElementById('share-url-btn');
     if(shareBtn) shareBtn.innerText = text.share_btn;
+
+    // ▼ 追加: 説明セクションの更新処理
+    const descTitle = document.getElementById('desc-title');
+    if (descTitle) descTitle.innerText = text.desc_title;
+
+    const descList = document.getElementById('desc-list');
+    if (descList) {
+        descList.innerHTML = ''; // 一旦クリア
+        text.desc_list.forEach(item => {
+            const li = document.createElement('li');
+            li.innerText = item;
+            descList.appendChild(li);
+        });
+    }
 
     // 入力エリアの生成
     const tbody = document.getElementById('input-rows');
