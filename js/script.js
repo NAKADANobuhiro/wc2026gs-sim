@@ -98,7 +98,15 @@ const UI_RESOURCES = {
 // =========================================
 // グローバル変数
 // =========================================
-let currentLang = 'ja';
+// let currentLang = 'ja';
+// ブラウザの言語設定を取得 (配列の先頭 または languageプロパティ)
+const browserLanguage = (window.navigator.languages && window.navigator.languages[0]) ||
+                        window.navigator.language ||
+                        'en';
+
+// "ja" で始まるなら 'ja'、それ以外は 'en' を初期値とする
+let currentLang = browserLanguage.toLowerCase().startsWith('ja') ? 'ja' : 'en';
+
 let targetTeamCode = 'JP';
 let currentGroupData = null;
 let statsData = []; // stats.json のデータを保持
