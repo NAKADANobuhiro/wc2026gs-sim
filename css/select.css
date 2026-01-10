@@ -1,0 +1,66 @@
+/* css/select.css */
+
+.select-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.groups-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.group-card {
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.group-header {
+    background-color: var(--header-bg); /* style.css で定義されている変数を想定 */
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.team-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.team-list li {
+    border-bottom: 1px solid #eee;
+}
+
+.team-link {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.2s;
+}
+
+.team-link:hover {
+    background-color: #f0f8ff;
+}
+
+.team-link img {
+    width: 30px;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: var(--header-bg);
+    text-decoration: none;
+    font-weight: bold;
+}

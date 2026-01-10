@@ -5,63 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>チーム選択 - 2026 FIFA World Cup Simulator</title>
     <link rel="stylesheet" href="./css/style.css">
-    <style>
-        .select-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .groups-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-        }
-        .group-card {
-            background: white;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .group-header {
-            background-color: var(--header-bg);
-            color: white;
-            padding: 10px;
-            text-align: center;
-            font-weight: bold;
-        }
-        .team-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .team-list li {
-            border-bottom: 1px solid #eee;
-        }
-        .team-link {
-            display: flex;
-            align-items: center;
-            padding: 10px 15px;
-            text-decoration: none;
-            color: #333;
-            transition: background-color 0.2s;
-        }
-        .team-link:hover {
-            background-color: #f0f8ff;
-        }
-        .team-link img {
-            width: 30px;
-            margin-right: 10px;
-            border: 1px solid #ddd;
-        }
-        .back-link {
-            display: inline-block;
-            margin-bottom: 20px;
-            color: var(--header-bg);
-            text-decoration: none;
-            font-weight: bold;
-        }
-    </style>
+    <link rel="stylesheet" href="./css/select.css">
+    <link rel="icon" href="./favicon.ico" sizes="any">
 </head>
 <body>
 
@@ -76,84 +21,7 @@
     </div>
 </div>
 
-<script>
-    // URLから現在の言語を取得
-    const urlParams = new URLSearchParams(window.location.search);
-    const lang = urlParams.get('lang') || 'ja';
-
-    // 翻訳リソース
-    const UI_TEXT = {
-        ja: {
-            title: "チームを選択してください",
-            back: "← ホーム"
-        },
-        en: {
-            title: "Select a Team",
-            back: "<- Home"
-        }
-    };
-
-    // テキストの適用
-    const text = UI_TEXT[lang] || UI_TEXT.ja;
-    document.getElementById('page-title').innerText = text.title;
-    
-    const backLink = document.getElementById('back-link');
-    backLink.innerText = text.back;
-    // 言語設定を維持して戻れるようにパラメータを付与
-    backLink.href = `index.html?lang=${lang}`;
-
-    // チームデータの読み込みと表示
-    fetch('./teams.json')
-        .then(response => response.json())
-        .then(groups => {
-            const container = document.getElementById('groups-area');
-            container.innerHTML = '';
-
-            groups.forEach(group => {
-                const groupCard = document.createElement('div');
-                groupCard.className = 'group-card';
-
-                // グループヘッダー
-                const header = document.createElement('div');
-                header.className = 'group-header';
-                // データに該当言語がない場合はフォールバック（例: ja）
-                header.textContent = group.name[lang] || group.name['ja'];
-                groupCard.appendChild(header);
-
-                // チームリスト
-                const ul = document.createElement('ul');
-                ul.className = 'team-list';
-
-                group.teams.forEach(team => {
-                    const li = document.createElement('li');
-                    const a = document.createElement('a');
-                    a.className = 'team-link';
-                    // index.html にチームコードと言語を渡す
-                    a.href = `index.html?team=${team.code}&lang=${lang}`;
-
-                    const teamName = team.name[lang] || team.name['ja'];
-
-                    // 国旗と国名
-                    a.innerHTML = `
-                        <img src="./img/${team.code}.png" alt="${team.code}">
-                        <span>${teamName}</span>
-                    `;
-                    li.appendChild(a);
-                    ul.appendChild(li);
-                });
-
-                groupCard.appendChild(ul);
-                container.appendChild(groupCard);
-            });
-        })
-        .catch(err => {
-            console.error('Error:', err);
-            const errMsg = lang === 'en' 
-                ? 'Failed to load data. Please ensure you are running this on a local server.' 
-                : 'データの読み込みに失敗しました。<br>ローカルサーバー経由で実行しているか確認してください。';
-            document.getElementById('groups-area').innerHTML = `<p style="color:red">${errMsg}</p>`;
-        });
-</script>
+<script src="./js/select.js"></script>
 
 </body>
 </html>
