@@ -1,0 +1,41 @@
+{
+  "index": {
+    "title": "FIFA World Cup 2026 Group Stage Qualification Simulator",
+    "target_label": "Target Team: ",
+    "select_btn": "Change",
+    "desc": "Enter the probability of Win, Draw, and Loss for each match.",
+    "th_opponent": "Opponent",
+    "th_win": "Win %",
+    "th_draw": "Draw %",
+    "th_loss": "Loss %",
+    "summary_template": "{name}'s Qualification Probability:",
+    "res_summary_suffix": "",
+    "th_pts": "Points",
+    "th_prob": "Prob.",
+    "th_qual_prob": "Qualify %",
+    "th_status": "Status",
+    "err_msg": "Total must be 100%",
+    "share_btn": "Copy Share URL",
+    "share_done": "Copied!",
+    "share_fail": "Copy Failed",
+    "desc_title": "Description",
+    "desc_list": [
+      "The Group Stage (GS) qualification probability is calculated based on the results of 1 million simulations. While there is a possibility of elimination with 6 points, it is treated as 100.0% because the probability is less than 0.01%.",
+      "The default values for Win/Draw/Loss are calculated based on match results and FIFA rankings at the time from the past five Group Stages. Rankings are rounded up to the nearest ten (e.g., 1–10 to 10), and rankings of 50 or lower are treated as 50 for aggregation. Win and Loss probabilities are rounded down to integers, with the Draw probability adjusted to balance the total. Please use this for reference only.",
+      "For undecided playoff spots, the highest-ranked team among the participants is used. For example, for the UEFA Path B winner in Group F, Ukraine (28th) is used as it is the highest among Ukraine (28th), Poland (31st), Sweden (43rd), and Albania (63rd)."
+    ],
+    "breakdown_template": "Breakdown<br>{p4}%: 4+ points (<strong>Qualified</strong>)<br>{p3}%: 3 points ({p3_qual}% qualify, {p3_fail}% elim)<br>{p2}%: 2 points or less (<strong>Eliminated</strong>)",
+    "status": {
+      "safe": "Qualified",
+      "likely": "Very Likely",
+      "border": "Goal Difference",
+      "miracle": "Miracle Needed",
+      "out": "Eliminated"
+    }
+  },
+  "select": {
+    "title": "Select a Team",
+    "back": "<- Home",
+    "load_error": "Failed to load data. Please ensure you are running this on a local server."
+  }
+}

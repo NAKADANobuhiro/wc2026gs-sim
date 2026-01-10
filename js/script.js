@@ -8,109 +8,35 @@ const QUALIFY_RATES = {
     4: 0.993, 3: 0.473, 2: 0.025, 1: 0.000, 0: 0.000
 };
 
-// 判定ラベル定義
+// 判定ラベル定義（デフォルト：クラス名用）
+// テキストは後でJSONから取得して上書きします
 const STATUS_LABELS = {
-    9: { text: "突破", class: "status-safe" },
-    7: { text: "突破", class: "status-safe" },
-    6: { text: "突破", class: "status-safe" },
-    5: { text: "突破", class: "status-safe" },
-    4: { text: "ほぼ確実", class: "status-safe" },
-    3: { text: "得失点差勝負", class: "status-border" },
-    2: { text: "奇跡待ち", class: "status-miracle" },
-    1: { text: "敗退決定", class: "status-out" },
-    0: { text: "敗退決定", class: "status-out" }
-};
-
-// 翻訳リソース (UI用)
-const UI_RESOURCES = {
-    ja: {
-        title: "2026 FIFAワールドカップ GS突破シミュレーター",
-        target_label: "対象チーム：",
-        select_btn: "変更",
-        desc: "各対戦における勝利・引き分け・敗北の確率を入力してください。グループステージ(GS)を突破できる確率をシミュレーションします。",
-        th_opponent: "対戦チーム",
-        th_win: "勝利 %",
-        th_draw: "引分 %",
-        th_loss: "敗北 %",
-        getSummary: (name) => `${name}のGS突破予想確率は`,
-        res_summary_suffix: " です。",
-        th_pts: "勝ち点",
-        th_prob: "確率",
-        th_qual_prob: "GS突破確率",
-        th_status: "GS突破",
-        err_msg: "合計が100%になっていません",
-        share_btn: "シェア用URLをコピー",
-        share_done: "コピーしました！",
-        share_fail: "コピーに失敗しました",
-        desc_title: "説明",
-        desc_list: [
-                    "グループステージ(GS)突破確率は、100万回のシミュレーションの結果から算出したものです。勝ち点6でも敗退する可能性はありますが、0.01% 以下のため 100.0% としています。",
-                    "勝利/引分/敗北の初期値は、過去 5 回のグループステージにおける、チームの当時のFIFAランキングと試合結果から算出しています。FIFAランキング 1～10位を10位、11～20位を20位というように切り上げ、50位以上は 50位として、対戦結果を集計しています。また勝利と敗北の確率は整数となるように切り捨て、引分の確率で調整しています。あくまでも参考としてください。",
-                    "プレーオフでまだ結果が出ていない場合は、参加チームの中で最も FIFA ランキングの高いチームを採用しています。例えばグループFの、UEFA・パスB勝者 の場合、ウクライナ 28位, ポーランド 31位, スウェーデン 43位, アルバニア 63位のため、ウクライナの 28 位が使用されます。"
-                ],
-        getBreakdown: (p4, p3, p3_qual, p3_fail, p2) => `
-            内訳<br>
-            ${p4}% の確率で、勝ち点4以上を獲得し<strong>突破</strong><br>
-            ${p3}% の確率で、勝ち点3を獲得 (${p3_qual}% で突破、${p3_fail}% で敗退)<br>
-            ${p2}% の確率で、勝ち点2以下しか獲得できず<strong>敗退</strong>
-        `,
-        status: {
-            safe: "突破", likely: "ほぼ確実", border: "得失点差勝負", miracle: "奇跡待ち", out: "敗退決定"
-        }
-    },
-    en: {
-        title: "2026 World Cup Qualification Simulator",
-        target_label: "Target Team: ",
-        select_btn: "Change",
-        desc: "Enter the probability of Win, Draw, and Loss for each match.",
-        th_opponent: "Opponent",
-        th_win: "Win %",
-        th_draw: "Draw %",
-        th_loss: "Loss %",
-        getSummary: (name) => `${name}'s Qualification Probability:`,
-        res_summary_suffix: "",
-        th_pts: "Points",
-        th_prob: "Prob.",
-        th_qual_prob: "Qualify %",
-        th_status: "Status",
-        err_msg: "Total must be 100%",
-        share_btn: "Copy Share URL",
-        share_done: "Copied!",
-        share_fail: "Copy Failed",
-        desc_title: "Description",
-        desc_list: [
-            "The Group Stage (GS) qualification probability is calculated based on the results of 1 million simulations. While there is a possibility of elimination with 6 points, it is treated as 100.0% because the probability is less than 0.01%.",
-            "The default values for Win/Draw/Loss are calculated based on match results and FIFA rankings at the time from the past five Group Stages. Rankings are rounded up to the nearest ten (e.g., 1–10 to 10), and rankings of 50 or lower are treated as 50 for aggregation. Win and Loss probabilities are rounded down to integers, with the Draw probability adjusted to balance the total. Please use this for reference only.",
-            "For undecided playoff spots, the highest-ranked team among the participants is used. For example, for the UEFA Path B winner in Group F, Ukraine (28th) is used as it is the highest among Ukraine (28th), Poland (31st), Sweden (43rd), and Albania (63rd)."
-        ],
-        getBreakdown: (p4, p3, p3_qual, p3_fail, p2) => `
-            Breakdown<br>
-            ${p4}%: 4+ points (<strong>Qualified</strong>)<br>
-            ${p3}%: 3 points (${p3_qual}% qualify, ${p3_fail}% elim)<br>
-            ${p2}%: 2 points or less (<strong>Eliminated</strong>)
-        `,
-        status: {
-            safe: "Qualified", likely: "Very Likely", border: "Goal Difference", miracle: "Miracle Needed", out: "Eliminated"
-        }
-    }
+    9: { class: "status-safe" },
+    7: { class: "status-safe" },
+    6: { class: "status-safe" },
+    5: { class: "status-safe" },
+    4: { class: "status-safe" },
+    3: { class: "status-border" },
+    2: { class: "status-miracle" },
+    1: { class: "status-out" },
+    0: { class: "status-out" }
 };
 
 // =========================================
 // グローバル変数
 // =========================================
-// let currentLang = 'ja';
-// ブラウザの言語設定を取得 (配列の先頭 または languageプロパティ)
 const browserLanguage = (window.navigator.languages && window.navigator.languages[0]) ||
                         window.navigator.language ||
                         'en';
-
-// "ja" で始まるなら 'ja'、それ以外は 'en' を初期値とする
 let currentLang = browserLanguage.toLowerCase().startsWith('ja') ? 'ja' : 'en';
 
 let targetTeamCode = 'JP';
 let currentGroupData = null;
 let statsData = []; // stats.json のデータを保持
 let isStateLoaded = false; // 初回ロード時のURLパラメータ反映済みフラグ
+
+// 翻訳データを保持する変数
+let uiResources = null;
 
 // =========================================
 // 初期化処理
@@ -126,30 +52,28 @@ window.onload = function() {
         langSel.addEventListener('change', changeLang);
     }
     
-    const selectBtn = document.getElementById('select-team-btn');
-    if(selectBtn) {
-        selectBtn.href = `select.html?lang=${currentLang}`;
-        selectBtn.innerText = UI_RESOURCES[currentLang].select_btn;
-    }
-
     // シェアボタンのイベントリスナー
     const shareBtn = document.getElementById('share-url-btn');
     if(shareBtn) {
         shareBtn.addEventListener('click', copyShareUrl);
     }
 
-    loadTeamsData();
+    loadAllData();
 };
 
-function loadTeamsData() {
-    // teams.json と stats.json を並列で読み込む
+function loadAllData() {
+    // teams.json, stats.json, locales/{lang}.json を並列で読み込む
     Promise.all([
         fetch('./teams.json').then(res => res.json()),
-        fetch('./stats.json').then(res => res.json())
+        fetch('./stats.json').then(res => res.json()),
+        fetch(`./locales/${currentLang}.json`).then(res => res.json())
     ])
-    .then(([groups, stats]) => {
-        // 統計データをグローバル変数に保存
+    .then(([groups, stats, localeData]) => {
+        // 統計データ保存
         statsData = stats;
+        
+        // 翻訳データ保存 (indexページ用を使用)
+        uiResources = localeData.index;
 
         let foundGroup = null;
         let targetTeamData = null;
@@ -167,7 +91,7 @@ function loadTeamsData() {
             console.warn('Team not found:', targetTeamCode);
             targetTeamCode = 'JP';
             // 再帰呼び出し（データはキャッシュされるため負荷は低い）
-            return loadTeamsData(); 
+            return loadAllData(); 
         }
 
         currentGroupData = {
@@ -180,31 +104,27 @@ function loadTeamsData() {
     .catch(err => {
         console.error('Failed to load data:', err);
         document.querySelector('.container').innerHTML = 
-            '<p style="color:red; text-align:center;">データの読み込みに失敗しました。<br>ローカルサーバー経由で実行しているか、stats.json / teams.json が存在するか確認してください。</p>';
+            '<p style="color:red; text-align:center;">データの読み込みに失敗しました。<br>Failed to load data.</p>';
     });
 }
 
 function changeLang() {
     currentLang = document.getElementById('lang-selector').value;
-    const selectBtn = document.getElementById('select-team-btn');
-    if(selectBtn) selectBtn.href = `select.html?lang=${currentLang}`;
-
-    // 言語切り替え時にURLのlangパラメータも更新する
+    
     const url = new URL(window.location);
     url.searchParams.set('lang', currentLang);
     window.history.replaceState(null, '', url);
 
-    render();
+    // 言語を切り替えたのでデータを再読み込み（リロードせずfetchし直す）
+    loadAllData();
 }
 
 // =========================================
 // ヘルパー関数: ランキング丸め処理
 // =========================================
 function getRoundedRank(rank) {
-    if (!rank) return 50; // null等の場合は50扱い
-    // 1-10 -> 10, 11-20 -> 20, ... 
+    if (!rank) return 50; 
     let r = Math.ceil(rank / 10) * 10;
-    // 50以上は50
     if (r > 50) r = 50;
     return r;
 }
@@ -213,17 +133,26 @@ function getRoundedRank(rank) {
 // 描画処理
 // =========================================
 function render() {
-    if (!currentGroupData) return;
+    if (!currentGroupData || !uiResources) return;
 
-    const text = UI_RESOURCES[currentLang];
+    // HTMLタグの言語設定
+    document.documentElement.lang = currentLang;
+
+    const text = uiResources; // JSONから読み込んだデータ
     const target = currentGroupData.target;
     const opponents = currentGroupData.opponents;
     const urlParams = new URLSearchParams(window.location.search);
     const hasStateParam = urlParams.has('s');
 
+    // リンクの更新
+    const selectBtn = document.getElementById('select-team-btn');
+    if(selectBtn) {
+        selectBtn.href = `select.html?lang=${currentLang}`;
+        selectBtn.innerText = text.select_btn;
+    }
+
     // テキスト更新
     document.getElementById('app-title').innerText = text.title;
-    document.getElementById('select-team-btn').innerText = text.select_btn;
     document.getElementById('target-team-heading-text').innerText = 
         `${text.target_label} ${target.name[currentLang]}`;
     document.getElementById('target-team-flag').src = `./img/${target.code}.png`;
@@ -232,23 +161,25 @@ function render() {
     document.getElementById('th-win').innerText = text.th_win;
     document.getElementById('th-draw').innerText = text.th_draw;
     document.getElementById('th-loss').innerText = text.th_loss;
-    document.getElementById('res-summary-text').innerText = text.getSummary(target.name[currentLang]);
+    
+    // テンプレート置換: Summary
+    const summaryText = text.summary_template.replace('{name}', target.name[currentLang]);
+    document.getElementById('res-summary-text').innerText = summaryText;
+
     document.getElementById('th-pts').innerText = text.th_pts;
     document.getElementById('th-prob').innerText = text.th_prob;
     document.getElementById('th-qual-prob').innerText = text.th_qual_prob;
     document.getElementById('th-status').innerText = text.th_status;
     
-    // シェアボタンの文言更新
     const shareBtn = document.getElementById('share-url-btn');
     if(shareBtn) shareBtn.innerText = text.share_btn;
 
-    // ▼ 追加: 説明セクションの更新処理
     const descTitle = document.getElementById('desc-title');
     if (descTitle) descTitle.innerText = text.desc_title;
 
     const descList = document.getElementById('desc-list');
     if (descList) {
-        descList.innerHTML = ''; // 一旦クリア
+        descList.innerHTML = '';
         text.desc_list.forEach(item => {
             const li = document.createElement('li');
             li.innerText = item;
@@ -271,24 +202,17 @@ function render() {
     if (needReset) {
         tbody.innerHTML = '';
         opponents.forEach((opp, index) => {
-            // 初期値の計算
-            let defW = 30, defD = 40, defL = 30; // デフォルト
+            let defW = 30, defD = 40, defL = 30;
 
-            // URLに 's' がない場合のみランキングから計算
             if (!hasStateParam) {
                 const targetRank = getRoundedRank(target.rank);
                 const oppRank = getRoundedRank(opp.rank);
-                
-                // 読み込んだ statsData から検索
                 const stat = statsData.find(d => d.my_rank === targetRank && d.opponent_rank === oppRank);
                 
                 if (stat) {
                     defW = stat.win_rate;
                     defD = stat.draw_rate;
                     defL = stat.loss_rate;
-                } else {
-                    // マッチしなかった場合のフォールバック
-                    defW = 30; defD = 40; defL = 30;
                 }
             }
 
@@ -326,80 +250,59 @@ function render() {
     calc();
 }
 
-// =========================================
-// URL状態管理 & シェア機能
-// =========================================
+// ... (updateUrlState, applyUrlState, copyShareUrl などの関数は変更なしのため省略可能ですが、そのまま維持してください) ...
 
 function updateUrlState() {
     const values = [];
     const rows = document.querySelectorAll('tr.input-row');
-    
     rows.forEach((row, index) => {
         const w = document.getElementById(`w${index}`).value;
         const d = document.getElementById(`d${index}`).value;
         values.push(parseInt(w));
         values.push(parseInt(d));
     });
-
     try {
         const jsonStr = JSON.stringify(values);
         const encoded = btoa(jsonStr);
         const url = new URL(window.location);
-        
         url.searchParams.set('s', encoded);
         url.searchParams.set('lang', currentLang);
-
         window.history.replaceState(null, '', url);
-    } catch (e) {
-        console.error('Encode failed', e);
-    }
+    } catch (e) { console.error(e); }
 }
 
 function applyUrlState(count) {
     const urlParams = new URLSearchParams(window.location.search);
     const s = urlParams.get('s');
     if (!s) return;
-
     try {
         const jsonStr = atob(s);
         const values = JSON.parse(jsonStr);
-
         if (Array.isArray(values) && values.length === count * 2) {
             for (let i = 0; i < count; i++) {
                 const w = values[i * 2];
                 const d = values[i * 2 + 1];
                 const l = 100 - w - d;
-
                 const elW = document.getElementById(`w${i}`);
                 const elD = document.getElementById(`d${i}`);
                 const elL = document.getElementById(`l${i}`);
-                
                 if(elW) elW.value = w;
                 if(elD) elD.value = d;
                 if(elL) elL.value = l;
             }
         }
-    } catch (e) {
-        console.warn('Invalid state parameter', e);
-    }
+    } catch (e) { console.warn(e); }
 }
 
-// シェアURLをクリップボードにコピー
 function copyShareUrl() {
     const url = window.location.href;
-
     if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(url).then(() => {
-            showCopySuccess();
-        }).catch(err => {
-            copyShareUrlFallback(url);
-        });
+        navigator.clipboard.writeText(url).then(() => showCopySuccess()).catch(() => copyShareUrlFallback(url));
     } else {
         copyShareUrlFallback(url);
     }
 }
 
-// フォールバック
 function copyShareUrlFallback(text) {
     const textArea = document.createElement("textarea");
     textArea.value = text;
@@ -409,36 +312,29 @@ function copyShareUrlFallback(text) {
     document.body.appendChild(textArea);
     textArea.focus();
     textArea.select();
-
     try {
-        const successful = document.execCommand('copy');
-        if (successful) {
-            showCopySuccess();
-        } else {
-            alert(UI_RESOURCES[currentLang].share_fail);
-        }
+        if (document.execCommand('copy')) showCopySuccess();
+        else alert(uiResources.share_fail);
     } catch (err) {
-        console.error('Fallback copy failed', err);
-        alert(UI_RESOURCES[currentLang].share_fail);
+        alert(uiResources.share_fail);
     }
-
     document.body.removeChild(textArea);
 }
 
 function showCopySuccess() {
     const btn = document.getElementById('share-url-btn');
     const originalText = btn.innerText;
-    btn.innerText = UI_RESOURCES[currentLang].share_done;
-    setTimeout(() => {
-        btn.innerText = originalText;
-    }, 2000);
+    btn.innerText = uiResources.share_done;
+    setTimeout(() => { btn.innerText = originalText; }, 2000);
 }
 
 // =========================================
 // 計算ロジック
 // =========================================
 function calc() {
-    // 値を安全に取得するヘルパー（0〜100に制限）
+    // UIリソースがロードされていない場合は計算しない
+    if (!uiResources) return;
+
     const getVal = (el) => {
         if (!el) return 0;
         let v = parseFloat(el.value);
@@ -449,7 +345,7 @@ function calc() {
     };
 
     const tbody = document.getElementById('input-rows');
-    if (!tbody) return; // エラー回避
+    if (!tbody) return;
     
     const rows = tbody.querySelectorAll('tr.input-row');
     const inputs = [];
@@ -462,7 +358,6 @@ function calc() {
         const sum = w + d + l;
         const errEl = document.getElementById(`err${index}`);
         
-        // ★修正ポイント: 合計と100の差が 0.1 より大きい場合にエラーとする（誤差許容）
         if (Math.abs(sum - 100) > 0.1) {
             if(errEl) errEl.style.display = 'block';
         } else {
@@ -474,12 +369,10 @@ function calc() {
 
     if (inputs.length === 0) return;
 
-    // URL更新（シェア機能用）
     if (typeof updateUrlState === 'function') {
         updateUrlState();
     }
 
-    // 確率計算（27通り）
     let pointsDist = { 9:0, 7:0, 6:0, 5:0, 4:0, 3:0, 2:0, 1:0, 0:0 };
     
     ['w', 'd', 'l'].forEach(r1 => {
@@ -495,11 +388,10 @@ function calc() {
         });
     });
 
-    // 集計
     let totalQualifyProb = 0;
     let p4_plus = 0, p3 = 0, p3_qual = 0, p2_under = 0;
     const tableData = [];
-    const text = UI_RESOURCES[currentLang];
+    const text = uiResources; // JSON参照
 
     Object.keys(pointsDist).sort((a,b) => b-a).forEach(pt => {
         const p = pointsDist[pt];
@@ -517,27 +409,30 @@ function calc() {
         else if (pt == 3) statusKey = 'border';
         else if (pt == 2) statusKey = 'miracle';
         
+        // テキストはJSONから、クラス名は定数から取得
         tableData.push({ 
             pts: pt, 
             prob: p, 
             qRate: qRate, 
             statusText: text.status[statusKey],
-            statusClass: `status-${statusKey}`
+            statusClass: STATUS_LABELS[pt] ? STATUS_LABELS[pt].class : "status-out"
         });
     });
 
-    // 結果表示
     document.getElementById('total-prob').innerText = 
         (totalQualifyProb * 100).toFixed(1) + "%" + text.res_summary_suffix;
 
     const p3_fail = p3 - p3_qual;
-    document.getElementById('breakdown-text').innerHTML = text.getBreakdown(
-        (p4_plus * 100).toFixed(1),
-        (p3 * 100).toFixed(1),
-        (p3_qual * 100).toFixed(1),
-        (p3_fail * 100).toFixed(1),
-        (p2_under * 100).toFixed(1)
-    );
+    
+    // テンプレート置換: Breakdown
+    let bd = text.breakdown_template;
+    bd = bd.replace('{p4}', (p4_plus * 100).toFixed(1));
+    bd = bd.replace('{p3}', (p3 * 100).toFixed(1));
+    bd = bd.replace('{p3_qual}', (p3_qual * 100).toFixed(1));
+    bd = bd.replace('{p3_fail}', (p3_fail * 100).toFixed(1));
+    bd = bd.replace('{p2}', (p2_under * 100).toFixed(1));
+    
+    document.getElementById('breakdown-text').innerHTML = bd;
 
     const resTbody = document.getElementById('result-tbody');
     resTbody.innerHTML = '';
