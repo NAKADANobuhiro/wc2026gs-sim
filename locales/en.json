@@ -9,7 +9,7 @@
     "th_draw": "Draw %",
     "th_loss": "Loss %",
     "summary_template": "{name}'s Qualification Probability:",
-    "res_summary_suffix": " です。",
+    "res_summary_suffix": "  ",
     "th_pts": "Points",
     "th_prob": "Prob.",
     "th_qual_prob": "Qualify %",
@@ -35,7 +35,7 @@
   },
   "select": {
     "title": "Select a Team",
-    "back": "<- ホーム",
+    "back": "<- Home",
     "load_error": "Failed to load data. Please ensure you are running this on a local server."
   }
 }
