@@ -31,11 +31,19 @@
       "border": "Goal Difference",
       "miracle": "Miracle Needed",
       "out": "Eliminated"
-    }
+    },
+    "result_title": "全チームシミュレーション結果一覧"
   },
   "select": {
     "title": "Select a Team",
     "back": "<- Home",
     "load_error": "Failed to load data. Please ensure you are running this on a local server."
+  },
+  "results": {
+    "page_title": "シミュレーション結果一覧",
+    "group": "{name}",
+    "team": "チーム",
+    "rank": "FIFAランク",
+    "prob": "突破確率"
   }
 }
