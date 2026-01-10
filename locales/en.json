@@ -40,10 +40,10 @@
     "load_error": "Failed to load data. Please ensure you are running this on a local server."
   },
   "results": {
-    "page_title": "シミュレーション結果一覧",
+    "page_title": "Simulation Results",
     "group": "{name}",
-    "team": "チーム",
-    "rank": "FIFAランク",
-    "prob": "突破確率"
+    "team": "Team",
+    "rank": "FIFA Rank",
+    "prob": "Qualify %"
   }
 }
