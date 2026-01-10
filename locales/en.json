@@ -35,7 +35,7 @@
   },
   "select": {
     "title": "Select a Team",
-    "back": "<- Home",
+    "back": "<- ホーム",
     "load_error": "Failed to load data. Please ensure you are running this on a local server."
   }
 }
