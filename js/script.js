@@ -161,6 +161,7 @@ function render() {
     document.getElementById('th-win').innerText = text.th_win;
     document.getElementById('th-draw').innerText = text.th_draw;
     document.getElementById('th-loss').innerText = text.th_loss;
+    document.getElementById('th-loss').innerText = text.th_loss;
     
     // テンプレート置換: Summary
     const summaryText = text.summary_template.replace('{name}', target.name[currentLang]);
@@ -169,7 +170,7 @@ function render() {
     document.getElementById('th-pts').innerText = text.th_pts;
     document.getElementById('th-prob').innerText = text.th_prob;
     document.getElementById('th-qual-prob').innerText = text.th_qual_prob;
-    document.getElementById('th-status').innerText = text.th_status;
+
     
     const shareBtn = document.getElementById('share-url-btn');
     if(shareBtn) shareBtn.innerText = text.share_btn;
@@ -185,6 +186,16 @@ function render() {
             li.innerText = item;
             descList.appendChild(li);
         });
+    }
+
+    const resTitleLink = document.getElementById('result-title');
+    if (resTitleLink) {
+        // テキストを翻訳データから取得して設定
+        if (uiResources.result_title) {
+            resTitleLink.innerText = uiResources.result_title;
+        }
+        // リンク先に現在の言語パラメータを引き継ぐ
+        resTitleLink.href = `results.html?lang=${currentLang}`;
     }
 
     // 入力エリアの生成

@@ -1,0 +1,60 @@
+/* css/results.css */
+
+/* 結果ページ固有のグループカード調整 */
+.group-card.result-card {
+    margin-bottom: 30px;
+}
+
+.result-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 結果テーブル */
+.result-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.result-table th {
+    text-align: left;
+    padding: 10px;
+    border-bottom: 2px solid #eee;
+    background-color: #f9f9f9;
+}
+
+.result-table td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+
+/* チーム名セル（国旗と名前の横並び） */
+.team-cell {
+    display: flex;
+    align-items: center;
+}
+
+.team-flag-small {
+    width: 24px;
+    height: auto;
+    border: 1px solid #ddd;
+    margin-right: 10px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* 確率表示セル */
+.prob-cell {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+/* 列幅の指定（ヘッダー用） */
+.col-rank {
+    width: 100px;
+}
+
+.col-prob {
+    width: 120px;
+}
