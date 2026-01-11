@@ -58,6 +58,17 @@ window.onload = function() {
         shareBtn.addEventListener('click', copyShareUrl);
     }
 
+    // X シェアボタン
+    const shareXBtn = document.getElementById('share-x-btn');
+    if(shareXBtn) {
+        shareXBtn.addEventListener('click', shareToX);
+    }
+    // Facebook シェアボタン
+    const shareFbBtn = document.getElementById('share-fb-btn');
+    if(shareFbBtn) {
+        shareFbBtn.addEventListener('click', shareToFb);
+    }
+
     loadAllData();
 };
 
@@ -312,6 +323,41 @@ function copyShareUrl() {
     } else {
         copyShareUrlFallback(url);
     }
+}
+
+// =========================================
+// SNSシェア機能
+// =========================================
+
+function shareToX() {
+    // 1. メッセージの構成要素を取得
+    // 例: "日本のGS突破予想確率は"
+    const summaryPrefix = document.getElementById('res-summary-text').innerText;
+    // 例: "89.5% です。"
+    const probText = document.getElementById('total-prob').innerText;
+    // タイトル
+    const title = uiResources ? uiResources.title : "FIFA World Cup 2026 GS Simulator";
+    
+    // 現在のURL (パラメータ付き)
+    const url = window.location.href;
+
+    // 2. テキストの組み立て
+    // 形式: 日本のGS突破予想確率は 89.5% です。FIFA ワールドカップ... #FIFAWorldCup @nakadanobuhiro
+    const text = `${summaryPrefix} ${probText} ${title} #FIFAWorldCup @nakadanobuhiro`;
+
+    // 3. XのシェアURLを開く
+    // textパラメータに文章を、urlパラメータにURLを含めることで、カードと文章の両方が表示されやすくなります
+    const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+    
+    window.open(shareUrl, '_blank');
+}
+
+function shareToFb() {
+    // Facebookは OGタグ を参照するため、URLを渡すだけでOK
+    const url = window.location.href;
+    const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+    
+    window.open(shareUrl, '_blank');
 }
 
 function copyShareUrlFallback(text) {

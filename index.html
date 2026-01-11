@@ -1,103 +1,126 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>2026 World Cup Qualification Simulator</title>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="icon" href="./favicon.ico" sizes="any">
+
+    <meta property="og:title" content="2026 FIFA World Cup GS Simulator" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://wc2026gs.ironsite.net/" />
+    <meta property="og:image" content="https://wc2026gs.ironsite.net/ogp.png" />
+    <meta property="og:site_name" content="2026 FIFA World Cup Qualification Simulator" />
+    <meta property="og:description"
+        content="Calculate the probability of advancing to the Group Stage based on match results. / 試合の勝敗予想から、W杯グループステージ突破確率をシミュレーションします。" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@nakadanobuhiro" />
+    <meta name="twitter:title" content="2026 FIFA World Cup GS Simulator" />
+    <meta name="twitter:description" content="Calculate qualification probabilities based on your predictions." />
+    <meta name="twitter:image" content="https://wc2026gs.ironsite.net/ogp.png" />
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-QBHG70GCV9"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+        function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
 
         gtag('config', 'G-QBHG70GCV9');
     </script>
 </head>
+
 <body>
 
-<header>
-    <div class="settings-bar">
-        <select id="lang-selector">
-            <option value="ja">🇯🇵 日本語</option>
-            <option value="en">en English</option>
-        </select>
-    </div>
-    <h1 id="app-title"></h1>
-</header>
+    <header>
+        <div class="settings-bar">
+            <select id="lang-selector">
+                <option value="ja">🇯🇵 日本語</option>
+                <option value="en">en English</option>
+            </select>
+        </div>
+        <h1 id="app-title"></h1>
+    </header>
 
-<div class="container">
-    <div class="team-section">
-        <h2 id="target-team-heading">
-            <span id="target-team-heading-text"></span>
-            <img id="target-team-flag" src="" class="flag-icon flag-icon-large">
-            <a id="select-team-btn" href="select.html" class="btn-select">変更</a>
-        </h2>
-        <p class="description" id="app-desc">
+    <div class="container">
+        <div class="team-section">
+            <h2 id="target-team-heading">
+                <span id="target-team-heading-text"></span>
+                <img id="target-team-flag" src="" class="flag-icon flag-icon-large">
+                <a id="select-team-btn" href="select.html" class="btn-select">変更</a>
+            </h2>
+            <p class="description" id="app-desc">
             </p>
 
-        <table class="input-table">
-            <thead>
-                <tr>
-                    <th style="width: 30%;" id="th-opponent">対戦チーム</th>
-                    <th style="width: 23%;" id="th-win">勝利 %</th>
-                    <th style="width: 23%;" id="th-draw">引分 %</th>
-                    <th style="width: 23%;" id="th-loss">敗北 %</th>
-                </tr>
-            </thead>
-            <tbody id="input-rows">
-                </tbody>
-        </table>
-
-        <hr>
-
-        <div id="result-area">
-            <div class="result-summary">
-                <span id="res-summary-text"></span> 
-                <span id="total-prob" class="total-prob">--.-%</span>
-            </div>
-            <div class="result-breakdown" id="breakdown-text">
-                </div>
-
-            <div style="text-align: right; margin-bottom: 20px;">
-                <button id="share-url-btn" class="btn-share">現在の設定URLをコピー</button>
-            </div>
-
-            <table class="result-table">
+            <table class="input-table">
                 <thead>
                     <tr>
-                        <th style="width: 20%;" id="th-pts">勝ち点</th>
-                        <th style="width: 25%;" id="th-prob">確率</th>
-                        <th style="width: 25%;" id="th-qual-prob">GS突破確率</th>
-                        <th style="width: 30%;" id="th-status">判定</th>
+                        <th style="width: 30%;" id="th-opponent">対戦チーム</th>
+                        <th style="width: 23%;" id="th-win">勝利 %</th>
+                        <th style="width: 23%;" id="th-draw">引分 %</th>
+                        <th style="width: 23%;" id="th-loss">敗北 %</th>
                     </tr>
                 </thead>
-                <tbody id="result-tbody">
-                    </tbody>
+                <tbody id="input-rows">
+                </tbody>
             </table>
+
+            <hr>
+
+            <div id="result-area">
+                <div class="result-summary">
+                    <span id="res-summary-text"></span>
+                    <span id="total-prob" class="total-prob">--.-%</span>
+                </div>
+                <div class="result-breakdown" id="breakdown-text">
+                </div>
+
+                <div style="text-align: right; margin-bottom: 20px;">
+                    <button id="share-url-btn" class="btn-share">シェア用URLをコピー</button>
+                    <button id="share-x-btn" class="btn-share"
+                        style="background-color: #000; color: #fff; margin-left: 8px;">X</button>
+                    <button id="share-fb-btn" class="btn-share"
+                        style="background-color: #1877F2; color: #fff; margin-left: 8px;">Facebook</button>
+                </div>
+
+                <table class="result-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%;" id="th-pts">勝ち点</th>
+                            <th style="width: 25%;" id="th-prob">確率</th>
+                            <th style="width: 25%;" id="th-qual-prob">GS突破確率</th>
+                            <th style="width: 30%;" id="th-status">判定</th>
+                        </tr>
+                    </thead>
+                    <tbody id="result-tbody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="description">
+            <hr />
+            <h2><a href="./results.html" id="result-title">全チームシミュレーション結果一覧</a></h2>
+        </div>
+
+        <div class="description">
+            <hr />
+            <h2 id="desc-title">説明</h2>
+            <ul id="desc-list">
+            </ul>
         </div>
     </div>
 
-    <div class="description">
-        <hr/>
-        <h2 ><a href="./results.html" id="result-title">全チームシミュレーション結果一覧</a></h2>
-    </div>
+    <footer>
+        <a href="https://github.com/NAKADANobuhiro/wc2026gs-sim/" target="_blank" rel="noopener noreferrer"
+            class="github-link">GitHub</a>
+    </footer>
 
-    <div class="description">
-        <hr/>
-        <h2 id="desc-title">説明</h2>
-        <ul id="desc-list">
-        </ul>
-    </div>
-</div>
-
-<footer>
-    <a href="https://github.com/NAKADANobuhiro/wc2026gs-sim/" target="_blank" rel="noopener noreferrer" class="github-link">GitHub</a>
-</footer>
-
-<script src="./js/script.js"></script>
+    <script src="./js/script.js"></script>
 
 </body>
+
 </html>
