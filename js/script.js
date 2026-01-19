@@ -343,7 +343,7 @@ function shareToX() {
 
     // 2. テキストの組み立て
     // 形式: 日本のGS突破予想確率は 89.5% です。FIFA ワールドカップ... #FIFAWorldCup @nakadanobuhiro
-    const text = `${summaryPrefix} ${probText} ${title} #FIFAWorldCup @nakadanobuhiro`;
+    const text = `${summaryPrefix} ${probText} ${title} #FIFAWorldCup #wc2026gs @nakadanobuhiro`;
 
     // 3. XのシェアURLを開く
     // textパラメータに文章を、urlパラメータにURLを含めることで、カードと文章の両方が表示されやすくなります
