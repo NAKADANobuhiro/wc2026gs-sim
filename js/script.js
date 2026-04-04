@@ -194,7 +194,7 @@ function render() {
         descList.innerHTML = '';
         text.desc_list.forEach(item => {
             const li = document.createElement('li');
-            li.innerText = item;
+            li.innerHTML = item;
             descList.appendChild(li);
         });
     }
