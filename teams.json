@@ -86,7 +86,7 @@
       { "code": "FR", "name": { "ja": "フランス", "en": "France" }, "rank": 3 },
       { "code": "SN", "name": { "ja": "セネガル", "en": "Senegal" }, "rank": 19 },
       { "code": "NO", "name": { "ja": "ノルウェー", "en": "Norway" }, "rank": 29 },
-      { "code": "ICPO-2", "name": { "ja": "大陸間プレーオフ2勝者", "en": "Inter-confederation Playoff 2 winner" }, "rank": 58 }
+      { "code": "IQ", "name": { "ja": "イラク", "en": "Iraq" }, "rank": 57 }
     ]
   },
   {
@@ -106,7 +106,7 @@
       { "code": "PT", "name": { "ja": "ポルトガル", "en": "Portugal" }, "rank": 5 },
       { "code": "UZ", "name": { "ja": "ウズベキスタン", "en": "Uzbekistan" }, "rank": 50 },
       { "code": "CO", "name": { "ja": "コロンビア", "en": "Colombia" }, "rank": 13 },
-      { "code": "ICPO-1", "name": { "ja": "大陸間プレーオフ1勝者", "en": "Inter-confederation Playoff 1 winner" }, "rank": 56 }
+      { "code": "CD", "name": { "ja": "コンゴ民主共和国", "en": "DR Congo" }, "rank": 46 }
     ]
   },
   {
