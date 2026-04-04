@@ -1,7 +1,30 @@
-# FIFA ワールドカップ 2026 グループステージ突破予想確率 シミュレーター / FIFA World Cup 2026 Group Stage Qualification Simulator"s
+# FIFA ワールドカップ 2026 グループステージ突破予想確率 シミュレーター / FIFA World Cup 2026 Group Stage Qualification Simulator
 
-[![Crowdin](https://badges.crowdin.net/wc2026gs-sim/localized.svg)](https://crowdin.com/project/wc2026gs-sim)
+FIFA ワールドカップ 2026 のグループステージ突破予想確率をシミュレーションするためのツールです。48チームが参加するこの大会のグループステージ突破確率を計算します。
 
-See https://wc2026gs.ironsite.net or https://nakadanobuhiro.github.io/wc2026gs-sim/
+## サンプルサイト
+
+- https://wc2026gs.ironsite.net
+
+## 紹介記事
 
 Note に紹介記事を書きました。[「FIFA ワールドカップ 2026 GS突破シミュレーター」を作成した｜スーパー笹ダンゴムシ](https://note.com/spsasadangomushi/n/n2dad03817dc8)
+
+## データ更新
+
+### 2026-04-04
+- 欧州プレーオフ（UEFA）予選結果を反映
+  - パスA：ボスニア・ヘルツェゴビナ（グループB）
+  - パスB：スウェーデン（グループF）
+  - パスC：トルコ（グループD）
+  - パスD：チェコ（グループA）
+- 大陸間プレーオフ（ICPO）結果を反映
+  - ICPO-1：コンゴ民主共和国（グループK）
+  - ICPO-2：イラク（グループI）
+- 全48チームが確定
+
+## ローカルでの実行方法
+
+`start-server.bat` をダブルクリックしてローカルサーバーを起動し、ブラウザで http://localhost:8080 を開いてください（Python が必要）。
+
+> **注意：** `index.html` をブラウザで直接開くと CORS エラーが発生します。必ずサーバー経由でアクセスしてください。
