@@ -296,3 +296,31 @@ footer {
     border-top: 1px solid #ccc;
     background-color: #f9f9f9;
 }
+
+/* 確定試合（試合終了）の行・入力欄 */
+.locked-row {
+    background-color: #f1f3f5;
+}
+input.locked-input {
+    background-color: #e9ecef;
+    color: #6c757d;
+    cursor: not-allowed;
+    border-color: #ced4da;
+}
+.match-final-badge {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 1px 6px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #495057;
+    background-color: #dee2e6;
+    border-radius: 10px;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+@media (max-width: 600px) {
+    .match-final-badge { font-size: 11px; margin-left: 4px; padding: 1px 4px; }
+}
+; padding: 1px 4px; }
+}

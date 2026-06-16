@@ -33,6 +33,7 @@ let currentLang = browserLanguage.toLowerCase().startsWith('ja') ? 'ja' : 'en';
 let targetTeamCode = 'JP';
 let currentGroupData = null;
 let statsData = []; // stats.json のデータを保持
+let matchesData = []; // matches.json の確定試合結果を保持
 let isStateLoaded = false; // 初回ロード時のURLパラメータ反映済みフラグ
 
 // 翻訳データを保持する変数
@@ -77,11 +78,16 @@ function loadAllData() {
     Promise.all([
         fetch('./teams.json').then(res => res.json()),
         fetch('./stats.json').then(res => res.json()),
-        fetch(`./locales/${currentLang}.json`).then(res => res.json())
+        fetch(`./locales/${currentLang}.json`).then(res => res.json()),
+        // 確定試合結果。未配置や読み込み失敗時は空配列にフォールバック
+        fetch('./matches.json').then(res => res.json()).catch(() => ({ matches: [] }))
     ])
-    .then(([groups, stats, localeData]) => {
+    .then(([groups, stats, localeData, matchesJson]) => {
         // 統計データ保存
         statsData = stats;
+
+        // 確定試合結果保存（{matches:[...]} 形式・配列直書きの両対応）
+        matchesData = Array.isArray(matchesJson) ? matchesJson : (matchesJson.matches || []);
         
         // 翻訳データ保存 (indexページ用を使用)
         uiResources = localeData.index;
@@ -134,10 +140,36 @@ function changeLang() {
 // ヘルパー関数: ランキング丸め処理
 // =========================================
 function getRoundedRank(rank) {
-    if (!rank) return 50; 
+    if (!rank) return 50;
     let r = Math.ceil(rank / 10) * 10;
     if (r > 50) r = 50;
     return r;
+}
+
+// =========================================
+// ヘルパー関数: 確定試合結果の取得
+// matches.json に対象チーム×対戦相手のスコアがあれば、
+// 対象チーム視点の {win, draw, loss}（100/0/0 等）とスコアを返す。
+// 未確定なら null。
+// =========================================
+function getMatchResult(targetCode, oppCode) {
+    const m = matchesData.find(x =>
+        (x.teamA === targetCode && x.teamB === oppCode) ||
+        (x.teamA === oppCode && x.teamB === targetCode)
+    );
+    if (!m) return null;
+    if (typeof m.scoreA !== 'number' || typeof m.scoreB !== 'number') return null;
+
+    // 対象チーム視点に並べ替え
+    const forScore = (m.teamA === targetCode) ? m.scoreA : m.scoreB;
+    const againstScore = (m.teamA === targetCode) ? m.scoreB : m.scoreA;
+
+    let win = 0, draw = 0, loss = 0;
+    if (forScore > againstScore) win = 100;
+    else if (forScore === againstScore) draw = 100;
+    else loss = 100;
+
+    return { win, draw, loss, forScore, againstScore };
 }
 
 // =========================================
@@ -226,11 +258,18 @@ function render() {
         opponents.forEach((opp, index) => {
             let defW = 30, defD = 40, defL = 30;
 
-            if (!hasStateParam) {
+            // 確定試合があれば、その結果で勝/分/敗を100/0/0等に固定
+            const decided = getMatchResult(target.code, opp.code);
+
+            if (decided) {
+                defW = decided.win;
+                defD = decided.draw;
+                defL = decided.loss;
+            } else if (!hasStateParam) {
                 const targetRank = getRoundedRank(target.rank);
                 const oppRank = getRoundedRank(opp.rank);
                 const stat = statsData.find(d => d.my_rank === targetRank && d.opponent_rank === oppRank);
-                
+
                 if (stat) {
                     defW = stat.win_rate;
                     defD = stat.draw_rate;
@@ -238,18 +277,27 @@ function render() {
                 }
             }
 
+            // 確定試合は readonly + locked クラスで編集不可・グレー表示にする
+            const lockAttr = decided ? 'readonly' : '';
+            const lockCls = decided ? ' locked-input' : '';
+            const scoreBadge = decided
+                ? `<span class="match-final-badge" title="${text.final_label || 'Final'}">🔒 ${decided.forScore}-${decided.againstScore}</span>`
+                : '';
+
             const tr = document.createElement('tr');
-            tr.className = 'input-row';
+            tr.className = 'input-row' + (decided ? ' locked-row' : '');
+            tr.dataset.locked = decided ? '1' : '0';
             tr.innerHTML = `
                 <td>
                     <div class="team-name">
                         <img src="./img/${opp.code}.png" class="flag-icon">
                         <span class="team-name-text">${opp.name[currentLang]}</span>
+                        ${scoreBadge}
                     </div>
                 </td>
-                <td><input type="number" class="in-win" id="w${index}" value="${defW}" oninput="calc()"> <span class="percent-label">%</span></td>
-                <td><input type="number" class="in-draw" id="d${index}" value="${defD}" oninput="calc()"> <span class="percent-label">%</span></td>
-                <td><input type="number" class="in-loss" id="l${index}" value="${defL}" oninput="calc()"> <span class="percent-label">%</span></td>
+                <td><input type="number" class="in-win${lockCls}" id="w${index}" value="${defW}" oninput="calc()" ${lockAttr}> <span class="percent-label">%</span></td>
+                <td><input type="number" class="in-draw${lockCls}" id="d${index}" value="${defD}" oninput="calc()" ${lockAttr}> <span class="percent-label">%</span></td>
+                <td><input type="number" class="in-loss${lockCls}" id="l${index}" value="${defL}" oninput="calc()" ${lockAttr}> <span class="percent-label">%</span></td>
             `;
             tbody.appendChild(tr);
 
@@ -302,12 +350,14 @@ function applyUrlState(count) {
         const values = JSON.parse(jsonStr);
         if (Array.isArray(values) && values.length === count * 2) {
             for (let i = 0; i < count; i++) {
-                const w = values[i * 2];
-                const d = values[i * 2 + 1];
-                const l = 100 - w - d;
                 const elW = document.getElementById(`w${i}`);
                 const elD = document.getElementById(`d${i}`);
                 const elL = document.getElementById(`l${i}`);
+                // 確定試合の行はURL状態で上書きしない（実結果を優先）
+                if (elW && elW.readOnly) continue;
+                const w = values[i * 2];
+                const d = values[i * 2 + 1];
+                const l = 100 - w - d;
                 if(elW) elW.value = w;
                 if(elD) elD.value = d;
                 if(elL) elL.value = l;

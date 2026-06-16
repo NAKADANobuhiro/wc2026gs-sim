@@ -3,3 +3,5 @@
 
 # .bak は対象外
 .bak
+copy-to-JOD.bat
+__pycache__/

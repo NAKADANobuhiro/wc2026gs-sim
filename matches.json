@@ -1,0 +1,29 @@
+{
+  "_comment": "グループステージの確定試合結果。teamA/teamB は teams.json の code。score は実際の得点。試合が終わったらここに 1 行追記すれば、シミュレーターの該当カードが自動で勝/分/敗 100/0/0 に固定されます。日付・グループは参考情報で計算には未使用。",
+  "updated": "2026-06-16",
+  "matches": [
+    { "group": "A", "date": "2026-06-11", "teamA": "MX", "teamB": "ZA", "scoreA": 2, "scoreB": 0 },
+    { "group": "A", "date": "2026-06-11", "teamA": "KR", "teamB": "CZ", "scoreA": 2, "scoreB": 1 },
+
+    { "group": "B", "date": "2026-06-12", "teamA": "CA", "teamB": "BA", "scoreA": 1, "scoreB": 1 },
+    { "group": "B", "date": "2026-06-13", "teamA": "QA", "teamB": "CH", "scoreA": 1, "scoreB": 1 },
+
+    { "group": "C", "date": "2026-06-13", "teamA": "BR", "teamB": "MA", "scoreA": 1, "scoreB": 1 },
+    { "group": "C", "date": "2026-06-13", "teamA": "GB-SCT", "teamB": "HT", "scoreA": 1, "scoreB": 0 },
+
+    { "group": "D", "date": "2026-06-12", "teamA": "US", "teamB": "PY", "scoreA": 4, "scoreB": 1 },
+    { "group": "D", "date": "2026-06-13", "teamA": "AU", "teamB": "TR", "scoreA": 2, "scoreB": 0 },
+
+    { "group": "E", "date": "2026-06-14", "teamA": "DE", "teamB": "CW", "scoreA": 7, "scoreB": 1 },
+    { "group": "E", "date": "2026-06-14", "teamA": "CI", "teamB": "EC", "scoreA": 1, "scoreB": 0 },
+
+    { "group": "F", "date": "2026-06-14", "teamA": "NL", "teamB": "JP", "scoreA": 2, "scoreB": 2 },
+    { "group": "F", "date": "2026-06-14", "teamA": "SE", "teamB": "TN", "scoreA": 5, "scoreB": 1 },
+
+    { "group": "G", "date": "2026-06-15", "teamA": "BE", "teamB": "EG", "scoreA": 1, "scoreB": 1 },
+    { "group": "G", "date": "2026-06-15", "teamA": "IR", "teamB": "NZ", "scoreA": 2, "scoreB": 2 },
+
+    { "group": "H", "date": "2026-06-15", "teamA": "ES", "teamB": "CV", "scoreA": 0, "scoreB": 0 },
+    { "group": "H", "date": "2026-06-15", "teamA": "SA", "teamB": "UY", "scoreA": 1, "scoreB": 1 }
+  ]
+}
