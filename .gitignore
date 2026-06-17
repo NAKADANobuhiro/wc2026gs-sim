@@ -1,7 +1,6 @@
 /wc2026gs-sim.html
 /work
-
-# .bak は対象外
-.bak
 copy-to-JOD.bat
 __pycache__/
+*.bak
+*.tmp
