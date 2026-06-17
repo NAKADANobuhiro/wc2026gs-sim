@@ -31,8 +31,11 @@ uv run python update_matches.py --dry-run
 # 2) 問題なければ反映（matches.json.bak を自動作成）
 uv run python update_matches.py
 
-# 3) ローカルで表示確認 → 問題なければコミット
-git add matches.json && git commit -m "Update results" && git push origin main
+# 3) 一覧ページの突破確率(当初/第1〜3節後)を再計算
+uv run python update_results.py
+
+# 4) ローカルで表示確認 → 問題なければコミット
+git add matches.json results.json && git commit -m "Update results" && git push origin main
 ```
 
 手動で追記する場合は `matches.json` の `matches` 配列に 1 行追加するだけでよい:

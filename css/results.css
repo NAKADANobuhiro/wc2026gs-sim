@@ -58,3 +58,42 @@
 .col-prob {
     width: 120px;
 }
+/* 4スナップショット比較表 */
+.compare-note {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #444;
+    background: #f3f6fb;
+    border: 1px solid #d6e0ee;
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin: 0 0 16px;
+}
+.compare-table th.col-prob {
+    width: 19%;
+    text-align: center;
+    font-size: 12px;
+}
+.compare-table .prob-cell {
+    text-align: center;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+.compare-table .delta {
+    font-size: 11px;
+    font-weight: bold;
+}
+.prob-cell.delta-up   { background: #eafaf0; }
+.prob-cell.delta-up   .delta { color: #1a9e4b; }
+.prob-cell.delta-down { background: #fdeced; }
+.prob-cell.delta-down .delta { color: #d2342f; }
+.prob-cell.delta-none { color: #777; }
+@media (max-width: 600px) {
+    .compare-table th, .compare-table .prob-cell { font-size: 11px; padding: 4px 2px; }
+    .compare-table .delta { font-size: 9px; }
+}
+.prob-cell.pending {
+    background: #ffffff;
+    color: #999999;
+}
+.prob-cell.pending .delta { display: none; }

@@ -46,6 +46,11 @@
     "group": "{name}",
     "team": "Team",
     "rank": "FIFA Rank",
-    "prob": "Qualify %"
+    "prob": "Qualify %",
+    "col_init": "Initial",
+    "col_md1": "After MD1",
+    "col_md2": "After MD2",
+    "col_md3": "After MD3 (GS end)",
+    "compare_note": "How each team's qualification probability evolves through the group stage. Initial = all matches predicted; After MDn = finished matches reflect actual results."
   }
 }

@@ -2,83 +2,119 @@
 
 // URLパラメータまたはブラウザ設定から言語を判定
 const urlParams = new URLSearchParams(window.location.search);
-let currentLang = urlParams.get('lang') || 
+let currentLang = urlParams.get('lang') ||
                   (navigator.language.toLowerCase().startsWith('ja') ? 'ja' : 'en');
 
-// HTMLタグの言語設定を更新
 document.documentElement.lang = currentLang;
 
-// 言語切り替えイベントの設定
 const langSel = document.getElementById('lang-selector');
 if (langSel) {
     langSel.value = currentLang;
     langSel.addEventListener('change', () => {
-        const newLang = langSel.value;
-        window.location.href = `results.html?lang=${newLang}`;
+        window.location.href = `results.html?lang=${langSel.value}`;
     });
 }
 
-// データ読み込みと描画
+// 突破確率セルを生成
+//   mode: 'base'    … 当初（基準・通常表示）
+//         'delta'   … 確定済み（当初比の差分を色分け表示）
+//         'pending' … 未確定（白背景・グレー文字、差分なし）
+function probCell(val, baseVal, mode) {
+    if (val === undefined || val === null || val === '-') {
+        return '<td class="prob-cell pending">-</td>';
+    }
+    if (mode === 'pending') {
+        return `<td class="prob-cell pending">${val}%</td>`;
+    }
+    if (mode === 'base' || baseVal === undefined || baseVal === null) {
+        return `<td class="prob-cell">${val}%</td>`;
+    }
+    const d = parseFloat(val) - parseFloat(baseVal);
+    let cls = 'delta-none', delta = '';
+    if (d > 0.05) { cls = 'delta-up'; delta = ` <span class="delta">▲${Math.abs(d).toFixed(1)}</span>`; }
+    else if (d < -0.05) { cls = 'delta-down'; delta = ` <span class="delta">▼${Math.abs(d).toFixed(1)}</span>`; }
+    return `<td class="prob-cell ${cls}">${val}%${delta}</td>`;
+}
+
+// 旧フォーマット("89.5") / 新フォーマット({init,md1,md2,md3}) 両対応
+function snapOf(entry) {
+    if (entry && typeof entry === 'object') return entry;
+    if (entry === undefined || entry === null) return null;
+    return { init: entry, md1: entry, md2: entry, md3: entry };
+}
+
 Promise.all([
     fetch('./teams.json').then(r => r.json()),
     fetch('./results.json').then(r => r.json()),
+    fetch('./matches.json').then(r => r.json()).catch(() => ({ matches: [] })),
     fetch(`./locales/${currentLang}.json`).then(r => r.json())
-]).then(([groups, results, locales]) => {
+]).then(([groups, results, matchesJson, locales]) => {
     const text = locales.results;
     const commonText = locales.select;
 
-    // ページタイトルなどの静的テキスト設定
+    // 各チームの消化試合数（確定済みスナップショットの判定に使用）
+    const matches = Array.isArray(matchesJson) ? matchesJson : (matchesJson.matches || []);
+    const playedCount = {};
+    matches.forEach(m => {
+        playedCount[m.teamA] = (playedCount[m.teamA] || 0) + 1;
+        playedCount[m.teamB] = (playedCount[m.teamB] || 0) + 1;
+    });
+
     const pageTitle = document.getElementById('page-title');
-    if(pageTitle) pageTitle.textContent = text.page_title;
-    
-    const backLink = document.getElementById('back-link');
-    if(backLink) {
-        backLink.textContent = commonText.back;
-        backLink.href = `index.html?lang=${currentLang}`;
-    }
+    if (pageTitle) pageTitle.textContent = text.page_title;
+
+    document.querySelectorAll('#back-link, .back-link').forEach(el => {
+        el.textContent = commonText.back;
+        el.href = `index.html?lang=${currentLang}`;
+    });
 
     const container = document.getElementById('results-area');
-    if(!container) return;
-    
+    if (!container) return;
     container.innerHTML = '';
 
+    if (text.compare_note) {
+        const note = document.createElement('p');
+        note.className = 'compare-note';
+        note.textContent = text.compare_note;
+        container.appendChild(note);
+    }
+
     groups.forEach(group => {
-        // グループごとのカード作成
         const section = document.createElement('div');
-        // select.cssのスタイル(group-card)とresults.cssのスタイル(result-card)を適用
         section.className = 'group-card result-card';
 
         const header = document.createElement('div');
         header.className = 'group-header';
-        // 言語に対応するグループ名を取得
         header.textContent = text.group.replace('{name}', group.name[currentLang] || group.name.ja);
         section.appendChild(header);
 
-        // テーブル作成
         const table = document.createElement('table');
-        table.className = 'result-table';
-        
-        // テーブルヘッダー
+        table.className = 'result-table compare-table';
         table.innerHTML = `
             <thead>
                 <tr>
                     <th>${text.team}</th>
-                    <th class="col-rank">${text.rank}</th>
-                    <th class="col-prob">${text.prob}</th>
+                    <th class="col-prob">${text.col_init}</th>
+                    <th class="col-prob">${text.col_md1}</th>
+                    <th class="col-prob">${text.col_md2}</th>
+                    <th class="col-prob">${text.col_md3}</th>
                 </tr>
             </thead>
-            <tbody id="tbody-${group.name.en}"></tbody>
+            <tbody></tbody>
         `;
-
         const tbody = table.querySelector('tbody');
 
         group.teams.forEach(team => {
-            const prob = results[team.code] || '-';
+            const snap = snapOf(results[team.code]);
             const teamName = team.name[currentLang] || team.name.ja;
-            const rankText = team.rank ? team.rank + (currentLang === 'ja' ? '位' : '') : '-';
-            
+            const init = snap ? snap.init : null;
+            const played = playedCount[team.code] || 0;
+            // 第N節後は、そのチームが N 試合消化済みのときだけ「確定」表示
+            const m1 = played >= 1 ? 'delta' : 'pending';
+            const m2 = played >= 2 ? 'delta' : 'pending';
+            const m3 = played >= 3 ? 'delta' : 'pending';
+
             const tr = document.createElement('tr');
-            
             tr.innerHTML = `
                 <td>
                     <div class="team-cell">
@@ -86,8 +122,10 @@ Promise.all([
                         <span>${teamName}</span>
                     </div>
                 </td>
-                <td>${rankText}</td>
-                <td class="prob-cell">${prob}%</td>
+                ${probCell(init, init, 'base')}
+                ${probCell(snap ? snap.md1 : null, init, m1)}
+                ${probCell(snap ? snap.md2 : null, init, m2)}
+                ${probCell(snap ? snap.md3 : null, init, m3)}
             `;
             tbody.appendChild(tr);
         });
@@ -98,5 +136,5 @@ Promise.all([
 }).catch(err => {
     console.error('Data load failed:', err);
     const container = document.getElementById('results-area');
-    if(container) container.innerHTML = '<p class="error">Failed to load simulation results.</p>';
+    if (container) container.innerHTML = '<p class="error">Failed to load simulation results.</p>';
 });

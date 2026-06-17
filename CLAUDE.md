@@ -29,12 +29,14 @@
 | `teams.json` | 12 グループ（A〜L）× 4 チーム。`{code, name{ja,en}, rank}` |
 | `stats.json` | FIFA ランク帯ごとの勝/分/敗率（入力初期値の元データ） |
 | `matches.json` | **確定試合の結果**。`{teamA,teamB,scoreA,scoreB,group,date}`。ロック機能の入力源 |
-| `results.json` | 一覧ページ用の全チーム突破確率（事前計算値） |
+| `results.json` | 一覧ページ用。各チーム4スナップショット `{init,md1,md2,md3}`（update_results.py が生成） |
+| `results.initial.json` | 旧 results.json（当初値）のバックアップ |
 | `locales/*.json` | 翻訳リソース |
 | `img/<code>.png` | 各国国旗（77 ファイル） |
 | `serve.py` | ローカル開発サーバー（クリーン URL 対応・クエリ非破棄） |
 | `start-server.bat` | サーバー起動（`python` → 失敗時 `uv run python`） |
 | `update_matches.py` | FIFA 公式 API（api.fifa.com）から確定結果を取得し `matches.json` を更新（APIキー不要） |
+| `update_results.py` | matches.json を基に results.json の4スナップショット（当初/第1〜3節後）を再計算 |
 | `spec.md` | 仕様書（Gemini 生成・参考） |
 | `copy-to-JOD.bat` | プロジェクトを `C:\JOD\Claude\Personal\wc2026gs-sim` へコピーする補助 |
 
@@ -68,6 +70,9 @@ uv run python serve.py 8080      # python が無い環境
 uv run python update_matches.py            # 取得して更新（FIFA 公式 API・キー不要）
 uv run python update_matches.py --dry-run  # 取得・解析のみ（書き込まない）
 # 取得元: api.fifa.com calendar/matches（idCompetition=17, idSeason=285023=W杯2026）
+
+# 一覧ページの突破確率(4スナップショット)を再計算（matches.json 更新後に実行）
+uv run python update_results.py
 
 # JSON 妥当性チェック
 python -c "import json; json.load(open('matches.json', encoding='utf-8'))"
