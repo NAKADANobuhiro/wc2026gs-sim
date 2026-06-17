@@ -20,6 +20,7 @@ Note に紹介記事を書きました。[「FIFA ワールドカップ 2026 GS�
 4. 終了済みの試合は実際の結果で固定され（グレー表示・編集不可）、残りの試合だけ予想を入力します。
 5. 右上のプルダウンで日本語／英語を切り替えられます。
 6. 「シェア用 URL をコピー」や X / Facebook ボタンで、入力状態を含む URL を共有できます。
+7. 「全チームシミュレーション結果一覧」では、各チームの突破確率を**当初／第1節後／第2節後／第3節後（GS終了）**で比較できます（未消化の節はグレー表示）。
 
 ## ローカルでの実行方法
 
@@ -42,14 +43,16 @@ uv run python serve.py 8080
 | --- | --- |
 | `index.html` / `js/script.js` | メイン画面・計算ロジック・i18n |
 | `select.html` / `js/select.js` | チーム選択画面 |
-| `results.html` / `js/results.js` | 全チーム突破確率の一覧 |
+| `results.html` / `js/results.js` | 全チーム突破確率の一覧（当初／第1〜3節後の4スナップショット比較） |
 | `teams.json` | グループ・チーム定義（12 グループ × 4 チーム） |
 | `stats.json` | FIFA ランク帯ごとの勝/分/敗率（入力初期値） |
 | `matches.json` | 確定試合の結果（ロック機能の入力源） |
-| `results.json` | 一覧ページ用の全チーム突破確率 |
+| `results.json` | 一覧ページ用。各チーム4スナップショット `{init,md1,md2,md3}`（`update_results.py` が生成） |
+| `results.initial.json` | 旧 results.json（当初値）のバックアップ |
 | `locales/ja.json`,`en.json` | 翻訳リソース（Crowdin 管理、`ja` が原本） |
 | `serve.py` / `start-server.bat` | ローカル開発サーバー |
-| `update_matches.py` | 確定結果を取得して `matches.json` を更新 |
+| `update_matches.py` | FIFA 公式 API（api.fifa.com）から確定結果を取得して `matches.json` を更新（キー不要） |
+| `update_results.py` | `matches.json` を基に `results.json` の4スナップショットを再計算 |
 
 - 計算ロジック: 3 試合 × {勝,分,敗} の 27 パターンを確率合成 → 勝点分布 → 勝点別の突破期待値（`QUALIFY_RATES`）で突破確率を算出。
 - URL パラメータ: `team`（対象チーム）/ `lang`（表示言語）/ `s`（Base64 化した入力状態）。
@@ -61,12 +64,17 @@ uv run python serve.py 8080
 
 ```bash
 uv run python update_matches.py --dry-run   # プレビュー
-uv run python update_matches.py             # 反映（バックアップ自動作成）
+uv run python update_matches.py             # FIFA 公式から取得して matches.json を反映
+uv run python update_results.py             # results.json の4スナップショットを再計算
 ```
 
 手動の場合は `matches.json` の `matches` 配列に 1 行追加します（`teamA`/`teamB` は `teams.json` の `code`）。
 
 ## データ更新履歴
+
+### 2026-06-17
+- 確定結果の取得元を FIFA 公式 API（api.fifa.com）に変更（APIキー不要）。
+- 一覧ページに「当初／第1節後／第2節後／第3節後」の4スナップショット比較を追加（`update_results.py`／`results.initial.json` に当初値を保全）。
 
 ### 2026-06-16
 - グループステージ開幕に伴い、確定試合の実結果を反映する機能を追加（`matches.json`）。
