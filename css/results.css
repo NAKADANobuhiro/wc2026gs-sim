@@ -106,3 +106,16 @@
 }
 .team-result-link:hover { color: var(--header-bg, #00004d); }
 .team-result-link:hover span { text-decoration: underline; }
+
+/* PC（広い画面）では一覧を2段組みに。狭い画面（スマホ等）は現状の1列のまま。 */
+@media (min-width: 1000px) {
+    .result-container { max-width: 1080px; }
+    #results-area {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 24px;
+        align-items: start;
+    }
+    /* 凡例（説明文）は2列ぶち抜きで上部に表示 */
+    #results-area > .compare-note { grid-column: 1 / -1; }
+}
