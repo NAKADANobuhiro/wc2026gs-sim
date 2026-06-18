@@ -325,3 +325,7 @@ input.locked-input {
 
 /* 結果テーブル: 確率が0%（実現不可能）の勝ち点行はグレー表示 */
 .result-table tr.prob-zero td { background-color: #ececec !important; color: #9a9a9a !important; }
+
+/* 入力テーブルの対戦国名をクリックで、その国の詳細(シミュレーター)画面へ */
+a.team-name-link { text-decoration: none; color: inherit; cursor: pointer; }
+a.team-name-link:hover .team-name-text { text-decoration: underline; color: var(--header-bg, #00004d); }

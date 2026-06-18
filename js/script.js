@@ -289,11 +289,11 @@ function render() {
             tr.dataset.locked = decided ? '1' : '0';
             tr.innerHTML = `
                 <td>
-                    <div class="team-name">
+                    <a href="index.html?team=${opp.code}&lang=${currentLang}" class="team-name team-name-link" title="${opp.name[currentLang]}">
                         <img src="./img/${opp.code}.png" class="flag-icon">
                         <span class="team-name-text">${opp.name[currentLang]}</span>
                         ${scoreBadge}
-                    </div>
+                    </a>
                 </td>
                 <td><input type="number" class="in-win${lockCls}" id="w${index}" value="${defW}" oninput="calc()" ${lockAttr}> <span class="percent-label">%</span></td>
                 <td><input type="number" class="in-draw${lockCls}" id="d${index}" value="${defD}" oninput="calc()" ${lockAttr}> <span class="percent-label">%</span></td>
@@ -314,6 +314,8 @@ function render() {
     } else {
         existingRows.forEach((row, index) => {
             row.querySelector('.team-name-text').innerText = opponents[index].name[currentLang];
+            const oppLink = row.querySelector('a.team-name-link');
+            if (oppLink) oppLink.href = `index.html?team=${opponents[index].code}&lang=${currentLang}`;
         });
     }
 
