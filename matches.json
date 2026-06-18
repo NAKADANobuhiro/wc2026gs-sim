@@ -171,12 +171,28 @@
       "scoreB": 1
     },
     {
+      "group": "K",
+      "date": "2026-06-18",
+      "teamA": "UZ",
+      "teamB": "CO",
+      "scoreA": 1,
+      "scoreB": 3
+    },
+    {
       "group": "L",
       "date": "2026-06-17",
       "teamA": "GB-ENG",
       "teamB": "HR",
       "scoreA": 4,
       "scoreB": 2
+    },
+    {
+      "group": "L",
+      "date": "2026-06-17",
+      "teamA": "GH",
+      "teamB": "PA",
+      "scoreA": 1,
+      "scoreB": 0
     }
   ]
 }
