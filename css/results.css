@@ -97,3 +97,12 @@
     color: #999999;
 }
 .prob-cell.pending .delta { display: none; }
+
+/* 国名クリックで各チームのシミュレーターへ遷移するリンク */
+.team-result-link {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+.team-result-link:hover { color: var(--header-bg, #00004d); }
+.team-result-link:hover span { text-decoration: underline; }

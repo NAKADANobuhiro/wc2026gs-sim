@@ -1,6 +1,8 @@
 /wc2026gs-sim.html
 /work
-copy-to-JOD.bat
 __pycache__/
 *.bak
+*.bat
 *.tmp
+*.log
+.gitignore

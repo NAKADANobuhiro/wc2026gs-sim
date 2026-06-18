@@ -322,5 +322,6 @@ input.locked-input {
 @media (max-width: 600px) {
     .match-final-badge { font-size: 11px; margin-left: 4px; padding: 1px 4px; }
 }
-; padding: 1px 4px; }
-}
+
+/* 結果テーブル: 確率が0%（実現不可能）の勝ち点行はグレー表示 */
+.result-table tr.prob-zero td { background-color: #ececec !important; color: #9a9a9a !important; }

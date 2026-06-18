@@ -115,12 +115,13 @@ Promise.all([
             const m3 = played >= 3 ? 'delta' : 'pending';
 
             const tr = document.createElement('tr');
+            // 国名（チームセル）クリックでそのチームのシミュレーター画面へ
             tr.innerHTML = `
                 <td>
-                    <div class="team-cell">
+                    <a class="team-cell team-result-link" href="index.html?team=${team.code}&lang=${currentLang}" title="${teamName}">
                         <img src="./img/${team.code}.png" class="team-flag-small" alt="${team.code}">
                         <span>${teamName}</span>
-                    </div>
+                    </a>
                 </td>
                 ${probCell(init, init, 'base')}
                 ${probCell(snap ? snap.md1 : null, init, m1)}

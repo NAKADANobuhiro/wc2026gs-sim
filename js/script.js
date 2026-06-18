@@ -545,9 +545,11 @@ function calc() {
     resTbody.innerHTML = '';
     tableData.forEach(row => {
         const tr = document.createElement('tr');
+        const probStr = (row.prob * 100).toFixed(1);
+        if (probStr === '0.0') tr.className = 'prob-zero';   // 確率0%（実現不可能）の行はグレー表示
         tr.innerHTML = `
             <td>${row.pts}</td>
-            <td>${(row.prob * 100).toFixed(1)}%</td>
+            <td>${probStr}%</td>
             <td>${(row.qRate * 100).toFixed(1)}%</td>
             <td class="${row.statusClass}">${row.statusText}</td>
         `;

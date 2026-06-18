@@ -84,3 +84,22 @@ copy matches.json.bak matches.json
 
 - `update_matches.py` は書き込み前に `matches.json.bak` を作成する。
 - OneDrive 外への移行は `copy-to-JOD.bat` を実行（`C:\JOD\Claude\Personal\wc2026gs-sim` へ robocopy。`.git` 履歴は保持、`__pycache__`/`.bak`/`.tmp` は除外）。移行後は作業フォルダを新パスに切り替える。
+
+## 8. 毎時自動更新（Windows タスクスケジューラ）
+
+GS 期間中、`update_matches.py` → `update_results.py` を 1 時間ごとに自動実行し、変更があれば GitHub へ push（公開サイトへ反映）する。
+
+- `update-hourly.bat` … 取得→再計算→差分があれば `git add/commit/push`。ログは `update.log`。
+- `register-hourly-task.bat` … 上記を「毎時」実行する Windows タスクを登録（**1 回だけ実行**）。
+
+セットアップ:
+
+1. `register-hourly-task.bat` をダブルクリック（タスク名 `wc2026gs-update` を毎時で登録）。
+2. すぐ試すなら: `schtasks /run /tn "wc2026gs-update"`、ログは `update.log` を確認。
+3. 解除: `schtasks /delete /tn "wc2026gs-update" /f`。
+
+前提・注意:
+
+- `git push` を無人で行うため、Git 認証情報がキャッシュ済みであること（Git Credential Manager。一度手動 push 済みなら通常OK）。
+- `uv` がユーザー PATH にあること（タスクはログオンユーザーの環境で実行）。
+- **OneDrive 上のままだと無人更新でファイル切り詰め破損のリスク**。`copy-to-JOD.bat` で `C:\JOD` 配下へ移し、そこで `register-hourly-task.bat` を実行するのを推奨（`%~dp0` なので移動先でそのまま動く）。
