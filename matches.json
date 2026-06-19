@@ -45,6 +45,14 @@
     {
       "group": "B",
       "date": "2026-06-18",
+      "teamA": "CA",
+      "teamB": "QA",
+      "scoreA": 6,
+      "scoreB": 0
+    },
+    {
+      "group": "B",
+      "date": "2026-06-18",
       "teamA": "CH",
       "teamB": "BA",
       "scoreA": 4,
