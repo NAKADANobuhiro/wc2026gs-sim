@@ -27,6 +27,14 @@
       "scoreB": 1
     },
     {
+      "group": "A",
+      "date": "2026-06-19",
+      "teamA": "MX",
+      "teamB": "KR",
+      "scoreA": 1,
+      "scoreB": 0
+    },
+    {
       "group": "B",
       "date": "2026-06-12",
       "teamA": "CA",
