@@ -15,7 +15,8 @@
 - データ: 実行時に `fetch` するローカル JSON（`teams.json` / `stats.json` / `matches.json` / `results.json`）。
 - i18n: `locales/ja.json`（翻訳の原本）/ `locales/en.json`。Crowdin 管理（`crowdin.yml`）。
 - ローカル開発サーバー: `serve.py`（Python 標準ライブラリのみ）。`start-server.bat` から起動。
-- 補助スクリプト: `update_matches.py`（Python 標準ライブラリのみ）。Web から `matches.json` を更新。
+- 補助スクリプト: `update_matches.py` / `update_results.py`（Python 標準ライブラリのみ）。確定結果の取得と一覧の再計算。
+- 自動更新（任意）: `register-hourly-task.bat` で毎時タスク（`wc2026gs-update`）を登録し、取得→再計算→`git push` を実行。
 - ホスティング: GitHub Pages（`NAKADANobuhiro/wc2026gs-sim`、`main` ブランチ）。独自ドメインは `CNAME`（`wc2026gs.ironsite.net`）。
 
 ## ディレクトリ構成
@@ -37,6 +38,7 @@
 | `start-server.bat` | サーバー起動（`python` → 失敗時 `uv run python`） |
 | `update_matches.py` | FIFA 公式 API（api.fifa.com）から確定結果を取得し `matches.json` を更新（APIキー不要） |
 | `update_results.py` | matches.json を基に results.json の4スナップショット（当初/第1〜3節後）を再計算 |
+| `update-hourly.bat` / `register-hourly-task.bat` | 毎時自動更新（取得→再計算→`git push`）の実行bat／Windows タスク登録bat |
 | `spec.md` | 仕様書（Gemini 生成・参考） |
 | `copy-to-JOD.bat` | プロジェクトを `C:\JOD\Claude\Personal\wc2026gs-sim` へコピーする補助 |
 
@@ -56,6 +58,7 @@
 - URL パラメータ: `team`（対象チーム）/ `lang`（`ja`|`en`）/ `s`（Base64 化した入力状態）。詳細は `spec.md` §7。
 - 翻訳は `ja.json` を原本とし、`en.json` は同じキー構成を維持する。
 - 確定試合のロック行は `applyUrlState` で URL 状態の上書きをスキップする（実結果を優先）。
+- 一覧ページ(`results.js`)は `results.json` の4スナップショットを **PCで2段組み**表示（`@media (min-width:1000px)`）。国名・対戦国名は `index.html?team=XX` へのリンク。勝ち点表の確率0%行は `.prob-zero` でグレー表示。
 
 ## よく使うコマンド
 

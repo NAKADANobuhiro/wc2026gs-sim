@@ -21,6 +21,8 @@ Note に紹介記事を書きました。[「FIFA ワールドカップ 2026 GS�
 5. 右上のプルダウンで日本語／英語を切り替えられます。
 6. 「シェア用 URL をコピー」や X / Facebook ボタンで、入力状態を含む URL を共有できます。
 7. 「全チームシミュレーション結果一覧」では、各チームの突破確率を**当初／第1節後／第2節後／第3節後（GS終了）**で比較できます（未消化の節はグレー表示）。
+8. 一覧の国名（国旗）や入力画面の対戦国名を**クリック**すると、その国のシミュレーター画面に移動します。
+9. PC（広い画面）では一覧が**2段組み**で表示されます。勝ち点表で確率が0%（実現不可能）の行はグレー表示になります。
 
 ## ローカルでの実行方法
 
@@ -53,6 +55,8 @@ uv run python serve.py 8080
 | `serve.py` / `start-server.bat` | ローカル開発サーバー |
 | `update_matches.py` | FIFA 公式 API（api.fifa.com）から確定結果を取得して `matches.json` を更新（キー不要） |
 | `update_results.py` | `matches.json` を基に `results.json` の4スナップショットを再計算 |
+| `update-hourly.bat` / `register-hourly-task.bat` | 毎時自動更新（取得→再計算→git push）を Windows タスクに登録 |
+| `copy-to-JOD.bat` | プロジェクトを OneDrive 外（`C:\JOD\…`）へコピーする補助 |
 
 - 計算ロジック: 3 試合 × {勝,分,敗} の 27 パターンを確率合成 → 勝点分布 → 勝点別の突破期待値（`QUALIFY_RATES`）で突破確率を算出。
 - URL パラメータ: `team`（対象チーム）/ `lang`（表示言語）/ `s`（Base64 化した入力状態）。
@@ -70,7 +74,16 @@ uv run python update_results.py             # results.json の4スナップシ�
 
 手動の場合は `matches.json` の `matches` 配列に 1 行追加します（`teamA`/`teamB` は `teams.json` の `code`）。
 
+## 毎時自動更新（任意）
+
+GS 期間中、結果取得 → 再計算 → GitHub への push を 1 時間ごとに自動実行できます。`register-hourly-task.bat` を一度実行して Windows タスク（`wc2026gs-update`）を登録します。詳細は [`Runbook.md`](Runbook.md) の「8. 毎時自動更新」を参照。
+
 ## データ更新履歴
+
+### 2026-06-19
+- 一覧の国名・入力画面の対戦国名をクリックで各チームの画面へ遷移。
+- 一覧を PC で2段組み表示。勝ち点表の確率0%（実現不可能）行をグレー表示。
+- 毎時自動更新（Windows タスクスケジューラ＋`git push`）に対応。
 
 ### 2026-06-17
 - 確定結果の取得元を FIFA 公式 API（api.fifa.com）に変更（APIキー不要）。
