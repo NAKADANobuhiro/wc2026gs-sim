@@ -79,6 +79,8 @@ copy matches.json.bak matches.json
 | 編集が反映されない | ブラウザキャッシュ | Ctrl+F5。`serve.py` は `Cache-Control: no-store` 付与済み |
 | 保存したファイルが途中で切れる | OneDrive 同期による上書き切り詰め | 別名で書き出し→`cp -f` で差し替え→ディスク実体を検証。恒久対策は OneDrive 外（例 `C:\JOD\...`）へ移動 |
 | `update_matches.py` が 0 件検出 | 該当試合が未確定、または FIFA API の idSeason/仕様変更 | `--dry-run` で確認。新大会では idSeason を更新（seasons エンドポイントで確認） |
+| JS/CSS の変更がスマホで反映されない | ブラウザ/CDN キャッシュ | `index.html` の `script.js?v=` を更新して再デプロイ。検証はシークレットタブが確実 |
+| Android で X 共有が web で開く／アプリで内容が出ない | App Links がアプリにリンクを横取り | `navigator.share`（OS共有シート）経由にする（実装済み）。ブラウザ強制は端末側の「対応リンクを開く」設定でのみ可能 |
 
 ## 7. バックアップ・移行
 

@@ -59,6 +59,7 @@
 - 翻訳は `ja.json` を原本とし、`en.json` は同じキー構成を維持する。
 - 確定試合のロック行は `applyUrlState` で URL 状態の上書きをスキップする（実結果を優先）。
 - 一覧ページ(`results.js`)は `results.json` の4スナップショットを **PCで2段組み**表示（`@media (min-width:1000px)`）。国名・対戦国名は `index.html?team=XX` へのリンク。勝ち点表の確率0%行は `.prob-zero` でグレー表示。
+- 共有ボタン(`shareToX`/`shareToFb`)の挙動: **iOS=同一タブ遷移**（アプリ起動）/ **Android=`navigator.share`**（OS共有シート→アプリに文章+URLが渡る）/ **PC=新規タブ**。X URL は `x.com/intent/tweet`。Android は App Links がアプリに横取りするためブラウザ強制は不可（共有シート方式が確実）。
 
 ## よく使うコマンド
 
@@ -89,6 +90,7 @@ git add -A && git commit -m "..." && git push origin main
 - `index.html` を `file://` で直接開かない（`fetch` が CORS で失敗）。必ずサーバー経由。
 - `npx serve` は `/index.html` を `/` にリダイレクトし `?team=XX` を捨てるため、**チーム選択が反映されなくなる**。ローカルでは `serve.py` を使うこと。
 - OneDrive 上での既存ファイル上書きは内容が途中で切り詰められることがある。書き込み後は bash 等でディスク実体を必ず検証する。
+- **JS/CSS を変更したら `index.html` の `script.js?v=YYYYMMDD…` を上げる**（GitHub Pages / モバイルブラウザのキャッシュ対策。上げないと旧版が残り、特にスマホで反映されない）。検証はシークレットタブが確実。
 
 ## 関連ドキュメント
 
