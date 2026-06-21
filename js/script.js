@@ -383,24 +383,21 @@ function copyShareUrl() {
 
 // 共有ウィンドウを開く。モバイルでポップアップがブロックされた場合は
 // 同一タブで遷移する（= X / Facebook アプリが起動する）。
-// モバイル判定（タッチ端末ではアプリ連携のため同一タブ遷移を使う）
-function isMobileDevice() {
-    return /Android|iPhone|iPad|iPod|Mobile|Silk|Kindle/i.test(navigator.userAgent || '');
-}
-
 // 共有先を開く。
-//   モバイル: 同一タブで遷移 → X / Facebook アプリのリンク連携（Universal Links / App Links）が起動。
-//   PC: 新規タブで開く（ブロック時は同一タブにフォールバック）。
+//   iOS: 同一タブ遷移 → X / Facebook アプリがプリフィルされて開く（iOSでは良好）。
+//   Android / PC: 新規タブ → ブラウザの投稿画面を開く
+//                （Android はアプリ連携だと投稿文が渡らないため、ブラウザのコンポーザを使う）。
 function openShare(u) {
-    if (isMobileDevice()) {
+    var ua = navigator.userAgent || '';
+    if (/iPhone|iPad|iPod/i.test(ua)) {
         window.location.href = u;
         return;
     }
-    const w = window.open(u, '_blank');
+    var w = window.open(u, '_blank');
     if (w) {
         try { w.opener = null; } catch (e) {}
     } else {
-        window.location.href = u;
+        window.location.href = u; // ポップアップブロック時のみ同一タブ
     }
 }
 
