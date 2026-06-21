@@ -420,7 +420,12 @@ function shareToX() {
     // 3. XのシェアURLを開く
     // textパラメータに文章を、urlパラメータにURLを含めることで、カードと文章の両方が表示されやすくなります
     const shareUrl = `https://x.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
-    
+
+    // Android は OS の共有シート(Web Share API)経由 → X アプリの投稿画面に文章+URLが渡る
+    if (navigator.share && /Android/i.test(navigator.userAgent || '')) {
+        navigator.share({ text: text, url: url }).catch(function () { openShare(shareUrl); });
+        return;
+    }
     openShare(shareUrl);
 }
 
@@ -428,7 +433,12 @@ function shareToFb() {
     // Facebookは OGタグ を参照するため、URLを渡すだけでOK
     const url = window.location.href;
     const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-    
+
+    // Android は OS の共有シート(Web Share API)経由
+    if (navigator.share && /Android/i.test(navigator.userAgent || '')) {
+        navigator.share({ url: url }).catch(function () { openShare(shareUrl); });
+        return;
+    }
     openShare(shareUrl);
 }
 
