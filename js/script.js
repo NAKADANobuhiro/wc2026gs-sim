@@ -381,6 +381,17 @@ function copyShareUrl() {
 // SNSシェア機能
 // =========================================
 
+// 共有ウィンドウを開く。モバイルでポップアップがブロックされた場合は
+// 同一タブで遷移する（= X / Facebook アプリが起動する）。
+function openShare(u) {
+    const w = window.open(u, '_blank');
+    if (w) {
+        try { w.opener = null; } catch (e) {}
+    } else {
+        window.location.href = u;
+    }
+}
+
 function shareToX() {
     // 1. メッセージの構成要素を取得
     // 例: "日本のGS突破予想確率は"
@@ -399,9 +410,9 @@ function shareToX() {
 
     // 3. XのシェアURLを開く
     // textパラメータに文章を、urlパラメータにURLを含めることで、カードと文章の両方が表示されやすくなります
-    const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+    const shareUrl = `https://x.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
     
-    window.open(shareUrl, '_blank');
+    openShare(shareUrl);
 }
 
 function shareToFb() {
@@ -409,7 +420,7 @@ function shareToFb() {
     const url = window.location.href;
     const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
     
-    window.open(shareUrl, '_blank');
+    openShare(shareUrl);
 }
 
 function copyShareUrlFallback(text) {
