@@ -361,6 +361,14 @@
       "teamB": "PA",
       "scoreA": 1,
       "scoreB": 0
+    },
+    {
+      "group": "L",
+      "date": "2026-06-23",
+      "teamA": "GB-ENG",
+      "teamB": "GH",
+      "scoreA": 0,
+      "scoreB": 0
     }
   ]
 }
