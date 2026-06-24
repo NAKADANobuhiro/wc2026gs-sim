@@ -1,6 +1,6 @@
 {
   "_comment": "グループステージの確定試合結果。teamA/teamB は teams.json の code。score は実際の得点。試合が終わったらここに 1 行追記すれば、シミュレーターの該当カードが自動で勝/分/敗 100/0/0 に固定されます。update_matches.py（FIFA 公式 API）で自動更新も可能。日付・グループは参考情報で計算には未使用。",
-  "updated": "2026-06-24",
+  "updated": "2026-06-25",
   "matches": [
     {
       "group": "A",
@@ -64,6 +64,22 @@
       "teamA": "CH",
       "teamB": "BA",
       "scoreA": 4,
+      "scoreB": 1
+    },
+    {
+      "group": "B",
+      "date": "2026-06-24",
+      "teamA": "BA",
+      "teamB": "QA",
+      "scoreA": 3,
+      "scoreB": 1
+    },
+    {
+      "group": "B",
+      "date": "2026-06-24",
+      "teamA": "CH",
+      "teamB": "CA",
+      "scoreA": 2,
       "scoreB": 1
     },
     {
