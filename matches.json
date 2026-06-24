@@ -369,6 +369,14 @@
       "teamB": "GH",
       "scoreA": 0,
       "scoreB": 0
+    },
+    {
+      "group": "L",
+      "date": "2026-06-23",
+      "teamA": "PA",
+      "teamB": "HR",
+      "scoreA": 0,
+      "scoreB": 1
     }
   ]
 }
