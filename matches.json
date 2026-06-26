@@ -179,6 +179,22 @@
       "scoreB": 1
     },
     {
+      "group": "D",
+      "date": "2026-06-26",
+      "teamA": "PY",
+      "teamB": "AU",
+      "scoreA": 0,
+      "scoreB": 0
+    },
+    {
+      "group": "D",
+      "date": "2026-06-26",
+      "teamA": "TR",
+      "teamB": "US",
+      "scoreA": 3,
+      "scoreB": 2
+    },
+    {
       "group": "E",
       "date": "2026-06-14",
       "teamA": "CI",
