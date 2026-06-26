@@ -259,6 +259,22 @@
       "scoreB": 4
     },
     {
+      "group": "F",
+      "date": "2026-06-25",
+      "teamA": "JP",
+      "teamB": "SE",
+      "scoreA": 1,
+      "scoreB": 1
+    },
+    {
+      "group": "F",
+      "date": "2026-06-25",
+      "teamA": "TN",
+      "teamB": "NL",
+      "scoreA": 1,
+      "scoreB": 3
+    },
+    {
       "group": "G",
       "date": "2026-06-15",
       "teamA": "BE",
