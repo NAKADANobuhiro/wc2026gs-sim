@@ -323,6 +323,22 @@
       "scoreB": 3
     },
     {
+      "group": "G",
+      "date": "2026-06-27",
+      "teamA": "EG",
+      "teamB": "IR",
+      "scoreA": 1,
+      "scoreB": 1
+    },
+    {
+      "group": "G",
+      "date": "2026-06-27",
+      "teamA": "NZ",
+      "teamB": "BE",
+      "scoreA": 1,
+      "scoreB": 5
+    },
+    {
       "group": "H",
       "date": "2026-06-15",
       "teamA": "ES",
